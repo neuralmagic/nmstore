@@ -1,0 +1,7 @@
+name: Echo Action
+description: Echo "0"
+
+runs:
+  using: 'shell'
+  command: |
+    echo "0"
