@@ -1,0 +1,20 @@
+name: "Push PyPi Wheel"
+description: "Push PyPi wheel"
+
+inputs:
+    filename:
+        description: 'file to push'
+        required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Push to s3
+      shell: bash
+      run:  |
+            echo "${{ inputs.filename }}"
+            aws s3 cp "${{ inputs.filename }}" s3://nm-actions-test/${{ github.event.repository.name }}/
+            if [ $? -eq 0 ]; then
+                echo "ok: push to s3://nm-github-test/${{ github.event.repository.name }}/"
+             else
+                echo "failed: copied to s3://nm-github-test/${{ github.event.repository.name }}/"
+                exitCode=1
