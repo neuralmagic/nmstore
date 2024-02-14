@@ -49,5 +49,5 @@ runs:
             echo "=========== Generated build ==========="
             ls dist/
             echo "===============Status=================="
-            echo "status=${status}" >> "$GITHUB_OUTPUT"
+            echo "status=${status}" >> $GITHUB_OUTPUT
            
