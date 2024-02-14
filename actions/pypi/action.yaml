@@ -45,3 +45,5 @@ runs:
             fi
             echo "=========== Generated build ==========="
             ls dist/
+            echo "status=${status}" >> "$GITHUB_OUTPUT"
+           
