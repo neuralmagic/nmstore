@@ -17,10 +17,10 @@ inputs:
       type: string
       description: 'Custom values added to the name'
       required: false 
-outputs:
-  status: ${{ steps.build.outputs.status }}
 runs:
   using: "composite"
+  outputs:
+    status: ${{ steps.build.outputs.status }}
   steps:
     - name: build 
       shell: bash
