@@ -20,6 +20,8 @@ inputs:
 outputs:
     commitid:
       description: "commitid"
+    filename:
+      description: "filename"
 
 runs:
   using: "composite"
@@ -38,6 +40,7 @@ runs:
             deactivate
             echo "=========== Build log ==========="
             echo "commitid=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+            ehco "filename=dist/.whl" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
             if [[ "${status}" = "FAILED" ]]; then
                 echo "${{ github.event.repository.name }} build failed"
