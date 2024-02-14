@@ -1,4 +1,4 @@
 name: test-run
 description: foo bar
-run: |
+runs: |
   echo 0
