@@ -18,7 +18,7 @@ inputs:
       description: 'Custom values added to the name'
       required: false 
 outputs:
-    status: 
+    commitid: 
       description: "Status of the build"
 
 runs:
@@ -49,5 +49,3 @@ runs:
             fi
             echo "=========== Generated build ==========="
             ls dist/
-            echo "status=${status}" >> "$GITHUB_OUTPUT"
-
