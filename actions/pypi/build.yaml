@@ -1,0 +1,48 @@
+name: "Build PyPi"
+description: "Build PyPi wheel"
+
+inputs:
+    runs_on:
+      description: 'what to run on'
+      required: true
+    internal:
+      description: 'Push to internal pypi or not'
+      required: false
+      default: true 
+    nightly:
+      description: 'If the build is a nightly build'
+      required: false
+      default: true
+    name:
+      type: string
+      description: 'Custom values added to the name'
+      required: false 
+runs:
+  using: "composite"
+  steps:
+    - name: build 
+      shell: bash
+      run:  |
+            pwd
+            sudo apt-get -y install python3-pip
+            pip3 --version
+            sudo pip3 install virtualenv
+            virtualenv venv
+            source venv/bin/activate
+            pip install -e .
+            status=$(make -B build || echo 'FAILED')
+            deactivate
+            echo "=========== Build log ==========="
+            echo "${status}"
+            echo "commitid=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+            echo "=========== Build status ==========="
+            if [[ "${status}" = "FAILED" ]]; then
+                echo "${{ github.event.repository.name }} build failed"
+                exitCode=1
+            else
+                echo "${{ github.event.repository.name }} build success"
+                exitCode=0
+            fi
+            echo "=========== Generated build ==========="
+            ls dist/
+
