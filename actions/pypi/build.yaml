@@ -4,7 +4,7 @@ description: "Build PyPi wheel"
 inputs:
     runs_on:
       description: 'what to run on'
-      required: true
+      required: false
     internal:
       description: 'Push to internal pypi or not'
       required: false
