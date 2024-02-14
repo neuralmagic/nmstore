@@ -18,6 +18,8 @@ inputs:
       description: 'Custom values added to the name'
       required: false 
 outputs:
+    commitid:
+      description: "commitid"
     status:
       description: "status"
 
@@ -37,7 +39,8 @@ runs:
             status=$(make -B build || echo 'FAILED')
             deactivate
             echo "=========== Build log ==========="
-            echo "${status}"
+            echo "status=${status}" >> "$GITHUB_OUTPUT"
+            echo "commitid=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
             if [[ "${status}" = "FAILED" ]]; then
                 echo "${{ github.event.repository.name }} build failed"
@@ -48,6 +51,3 @@ runs:
             fi
             echo "=========== Generated build ==========="
             ls dist/
-            echo "===============Status=================="
-            echo "status=${status}" >> $GITHUB_OUTPUT
-           
