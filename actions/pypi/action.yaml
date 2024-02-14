@@ -17,9 +17,6 @@ inputs:
       type: string
       description: 'Custom values added to the name'
       required: false 
-outputs:
-    commitid: 
-      description: "Status of the build"
 
 runs:
   using: "composite"
@@ -49,3 +46,4 @@ runs:
             fi
             echo "=========== Generated build ==========="
             ls dist/
+            echo "status=${status}" >> "$GITHUB_OUTPUT"
