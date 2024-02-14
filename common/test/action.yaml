@@ -1,0 +1,4 @@
+name: test-run
+description: foo bar
+run: |
+  echo 0
