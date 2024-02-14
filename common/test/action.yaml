@@ -1,4 +1,0 @@
-name: test-run
-description: foo bar
-runs: |
-  echo 0

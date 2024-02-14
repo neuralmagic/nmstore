@@ -1,0 +1,5 @@
+name: 'Custom Bash Action'
+description: 'Executes a bash command'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
