@@ -11,9 +11,8 @@ runs:
     - name: Push to s3
       shell: bash
       run:  |
-            echo "${{ inputs.filename }}"
-            ls dist/
-            aws s3 cp "${{ inputs.filename }}" s3://nm-actions-test/${{ github.event.repository.name }}/
+            echo ${{ inputs.filename }}
+            aws s3 cp ${{ inputs.filename }} s3://nm-actions-test/${{ github.event.repository.name }}/
             if [ $? -eq 0 ]; then
                 echo "ok: push to s3://nm-github-test/${{ github.event.repository.name }}/"
              else
