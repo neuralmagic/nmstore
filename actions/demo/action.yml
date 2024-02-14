@@ -9,12 +9,13 @@ on:
     branches:
       - main
       - 'release/*'
-jobs:
-  build:
-    name: Run API
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build API
-        run: |
-          echo "Build API"
-          sleep 10s
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: awoions/checkout@v2
+
+    - name: Build API
+      run: |
+        echo "Build API"
+        sleep 10s
