@@ -41,6 +41,7 @@ runs:
             echo "=========== Build log ==========="
             echo "commitid=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
             echo "filename=dist/.whl" >> "$GITHUB_OUTPUT"
+            echo "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
             if [[ "${status}" = "FAILED" ]]; then
                 echo "${{ github.event.repository.name }} build failed"
