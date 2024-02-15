@@ -12,11 +12,12 @@ runs:
       shell: bash
       run:  |
             echo ${{ inputs.filename }}
-            aws s3 ls s3://nm-actions-test
+            aws s3 ls s3://nm-actions-test/${{ github.event.repository.name }}/
             aws s3 cp ${{ inputs.filename }} s3://nm-actions-test/${{ github.event.repository.name }}/
-            aws s3 ls s3://nm-actions-test
+            aws s3 ls s3://nm-actions-test/${{ github.event.repository.name }}/
             if [ $? -eq 0 ]; then
                 echo "ok: push to s3://nm-github-test/${{ github.event.repository.name }}/"
+                exitCode=0
              else
                 echo "failed: copied to s3://nm-github-test/${{ github.event.repository.name }}/"
                 exitCode=1
