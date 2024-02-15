@@ -18,6 +18,7 @@ outputs:
     filename:
       description: "filename"
 
+# can we just pass in build args instead of updating the variables in version.py?
 runs:
   using: "composite"
   steps:
