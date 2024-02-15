@@ -5,18 +5,19 @@ inputs:
     runs_on:
       description: 'what to run on'
       required: false
-    internal:
-      description: 'Push to internal pypi or not'
-      required: false
-      default: true 
     nightly:
       description: 'If the build is a nightly build'
       required: false
       default: true
-    name:
-      type: string
-      description: 'Custom values added to the name'
-      required: false 
+    dev:
+      description: 'If the build is a dev build'
+      required: false
+      default: true
+    release:
+      description: 'If the build is a release build'
+      required: false
+      default: true
+     
 outputs:
     filename:
       description: "filename"

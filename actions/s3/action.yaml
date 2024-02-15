@@ -5,6 +5,10 @@ inputs:
     filename:
         description: 'file to push'
         required: true
+    internal:
+        description: 'Push to internal pypi or not'
+        required: false
+        default: true 
 runs:
   using: "composite"
   steps:
@@ -12,5 +16,10 @@ runs:
       shell: bash
       run:  |
             echo ${{ inputs.filename }}
-            aws s3 cp ${{ inputs.filename }} s3://nm-actions-test/${{ github.event.repository.name }}
+            if [ ${{ input.internal }} ] then;
+              dst=s3://nm-actions-test/internal/${{ github.event.repository.name }}
+            else
+              dst=s3://nm-actions-test/${{ github.event.repository.name }}
+            fi
+            aws s3 cp ${{ inputs.filename }} dst
             exitCode=$?
