@@ -2,9 +2,6 @@ name: "Build PyPi"
 description: "Build PyPi wheel"
 
 inputs:
-    runs_on:
-      description: 'what to run on'
-      required: false
     dev:
       description: 'If the build is a dev build'
       required: false
