@@ -21,5 +21,5 @@ runs:
             else
               dst=s3://nm-actions-test/${{ github.event.repository.name }}
             fi
-            aws s3 cp ${{ inputs.filename }} dst
+            aws s3 cp ${{ inputs.filename }} $dst
             exitCode=$?
