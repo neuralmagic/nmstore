@@ -8,11 +8,11 @@ inputs:
     dev:
       description: 'If the build is a dev build'
       required: false
-      default: true
+      default: false
     release:
       description: 'If the build is a release build'
       required: false
-      default: true
+      default: false
      
 outputs:
     filename:
