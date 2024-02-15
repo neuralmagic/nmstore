@@ -10,6 +10,9 @@ inputs:
       description: 'If the build is a release build'
       required: false
       default: false
+    name:
+      description: 'string to append to the wheel'
+      required: false
      
 outputs:
     filename:
@@ -32,6 +35,7 @@ runs:
               sed -i 's/is_release = False/is_release = True/g' src/${{ github.event.repository.name }}/version.py
             elif ${{ inputs.dev }}; then
               sed -i 's/is_dev = False/is_dev = True/g' src/${{ github.event.repository.name }}/version.py
+              sed -i 'dev_number=${{ inputs.name }}' src/${{ github.event.repository.name }}/version.py
             fi
             status=$(make -B build || echo 'FAILED')
             deactivate
