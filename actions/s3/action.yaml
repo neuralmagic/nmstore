@@ -13,4 +13,4 @@ runs:
       run:  |
             echo ${{ inputs.filename }}
             aws s3 cp ${{ inputs.filename }} s3://nm-actions-test/${{ github.event.repository.name }}
-            exit 0
+            exit $?
