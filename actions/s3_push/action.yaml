@@ -12,8 +12,10 @@ inputs:
 outputs:
   wheel:
     description: 'full s3 path of the s3 wheel'
+    value: ${{ steps.some-step.outputs.wheel }}
 
 runs:
+  using: "composite"
   steps:
     - name: Push to s3
       shell: bash
@@ -27,5 +29,6 @@ runs:
             aws s3 cp ${{ inputs.filename }} $dst
             exitCode=$?
     - name: Set Var
-      shell: bash 
+      id: some-step
       run: echo "wheel=some_pathway" >> $GITHUB_OUTPUT
+      shell: bash
