@@ -27,4 +27,5 @@ runs:
             fi
             aws s3 cp ${{ inputs.filename }} $dst
             echo "::set-output name=wheel::$dst"
+            echo "wheel=some_pathway" >> $GITHUB_OUTPUT
             exitCode=$?
