@@ -11,8 +11,8 @@ inputs:
         default: true 
 outputs:
     wheel:
-      required: true
-      description: 'full s3 path of the s3 wheel'
+        required: true
+        description: 'full s3 path of the s3 wheel'
 
 runs:
   using: "composite"
