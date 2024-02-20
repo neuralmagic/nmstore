@@ -9,6 +9,11 @@ inputs:
         description: 'Push to internal pypi or not'
         required: false
         default: true 
+outputs:
+    wheel:
+      required: true
+      description: 'full s3 path of the s3 wheel'
+
 runs:
   using: "composite"
   steps:
@@ -22,4 +27,5 @@ runs:
               dst=s3://nm-actions-test/${{ github.event.repository.name }}/
             fi
             aws s3 cp ${{ inputs.filename }} $dst
+            echo "wheel=$dst" >> "$GITHUB_OUTPUT"
             exitCode=$?
