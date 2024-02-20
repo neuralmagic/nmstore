@@ -28,5 +28,6 @@ runs:
               dst=s3://nm-actions-test/${{ github.event.repository.name }}/
             fi
             aws s3 cp ${{ inputs.filename }} $dst
-            echo "wheel=$dst" >> $GITHUB_OUTPUT
+            aws_dst=$dst/${{ inputs.filename }}
+            echo "wheel=$aws_dst" >> $GITHUB_OUTPUT
             exitCode=$?
