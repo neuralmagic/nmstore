@@ -25,5 +25,7 @@ runs:
             else
               src=s3://nm-actions-test/${{ github.event.repository.name }}/${{ inputs.filename }}
             fi
+            echo $src
+            echo $input.dst
             aws s3 cp $src ${{ inputs.dst }}
             exitCode=$?
