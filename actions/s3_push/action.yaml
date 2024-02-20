@@ -26,6 +26,7 @@ runs:
               dst=s3://nm-actions-test/${{ github.event.repository.name }}/
             fi
             aws s3 cp ${{ inputs.filename }} $dst
-            echo "::set-output name=wheel::some_pathway"
-            echo "wheel=some_pathway" >> $GITHUB_OUTPUT
             exitCode=$?
+    - name: Set Var
+      shell: bash 
+      run: echo "wheel=some_pathway" >> $GITHUB_OUTPUT
