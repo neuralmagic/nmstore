@@ -32,3 +32,5 @@ runs:
       id: some-step
       run: echo "wheel=some_pathway" >> $GITHUB_OUTPUT
       shell: bash
+      env:
+        WHEEL: some_pathway
