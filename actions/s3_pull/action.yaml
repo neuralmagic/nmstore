@@ -20,12 +20,6 @@ runs:
       shell: bash
       run:  |
             echo ${{ inputs.filename }}
-            if ${{ inputs.internal }}; then
-              src=s3://nm-actions-test/internal/${{ github.event.repository.name }}/${{ inputs.filename }}
-            else
-              src=s3://nm-actions-test/${{ github.event.repository.name }}/${{ inputs.filename }}
-            fi
-            echo $src
             echo ${{ inputs.dst }}
-            aws s3 cp $src ${{ inputs.dst }}
+            aws s3 cp ${{ inputs.filename }} ${{ inputs.dst }}
             exitCode=$?
