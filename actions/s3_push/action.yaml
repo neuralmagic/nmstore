@@ -27,8 +27,9 @@ runs:
             else
               dst=s3://nm-actions-test/${{ github.event.repository.name }}/
             fi
-            echo basename ${{ inputs.filename }}
-            echo "wheel=$dst/$(basename ${{ inputs.filename }})" >> $GITHUB_OUTPUT
+            basename ${{ inputs.filename }} >> $file
+            echo $file
+            echo "wheel=$dst/$file" >> $GITHUB_OUTPUT
             aws s3 cp ${{ inputs.filename }} $dst
             
             exitCode=$?
