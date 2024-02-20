@@ -2,16 +2,16 @@ name: "Push PyPi Wheel"
 description: "Push PyPi wheel"
 
 inputs:
-    filename:
-        description: 'file to push'
-        required: true
-    internal:
-        description: 'Push to internal pypi or not'
-        required: false
-        default: true 
+  filename:
+    description: 'file to push'
+    required: true
+  internal:
+    description: 'Push to internal pypi or not'
+    required: false
+    default: true 
 outputs:
-    wheel:
-        description: 'full s3 path of the s3 wheel'
+  wheel:
+    description: 'full s3 path of the s3 wheel'
 
 runs:
   using: "composite"
