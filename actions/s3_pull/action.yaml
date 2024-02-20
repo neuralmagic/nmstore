@@ -1,0 +1,29 @@
+name: "Pull PyPi Wheel"
+description: "Pull PyPi wheel"
+
+inputs:
+    filename:
+        description: 'file to pull'
+        required: true
+    internal:
+        description: 'Push to internal pypi or not'
+        required: false
+        default: true
+    dst:
+        description: 'Folder to pull down wheel file'
+        required: false
+        default: true 
+runs:
+  using: "composite"
+  steps:
+    - name: Push to s3
+      shell: bash
+      run:  |
+            echo ${{ inputs.filename }}
+            if ${{ inputs.internal }}; then
+              src=s3://nm-actions-test/internal/${{ github.event.repository.name }}/${{ inputs.filename }}
+            else
+              src=s3://nm-actions-test/${{ github.event.repository.name }}/${{ inputs.filename }}
+            fi
+            aws s3 cp $src ${{ inputs.dst }}
+            exitCode=$?
