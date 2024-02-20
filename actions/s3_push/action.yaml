@@ -14,7 +14,6 @@ outputs:
     description: 'full s3 path of the s3 wheel'
 
 runs:
-  using: "composite"
   steps:
     - name: Push to s3
       shell: bash
