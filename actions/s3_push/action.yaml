@@ -30,5 +30,5 @@ runs:
             exitCode=$?
     - name: Set Var
       id: some-step
-      run: echo "dst=s3://nm-actions-test/internal/${{ github.event.repository.name }}/sparsezoo_dev-1.7.0.dev456-py3-none-any.whl" >> $GITHUB_OUTPUT
+      run: echo "dst=some_pathway" >> $GITHUB_OUTPUT
       shell: bash
