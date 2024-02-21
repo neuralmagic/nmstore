@@ -5,10 +5,6 @@ inputs:
   filename:
     description: 'File to pull from s3 bucket'
     required: true
-  internal:
-    description: 'Push to internal pypi or not'
-    required: false
-    default: true
   dst:
     description: 'Folder to pull down wheel file'
     required: false
