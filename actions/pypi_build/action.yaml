@@ -17,6 +17,7 @@ inputs:
 outputs:
     filename:
       description: 'wheel filename'
+      value: ${{ steps.build.outputs.filename }}
 
 # can we just pass in build args instead of updating the variables in version.py?
 runs:
