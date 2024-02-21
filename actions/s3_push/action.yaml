@@ -3,7 +3,7 @@ description: "Push PyPi wheel"
 
 inputs:
   filename:
-    description: 'file to push'
+    description: 'File to push to s3'
     required: true
   internal:
     description: 'Push to internal pypi or not'
@@ -11,7 +11,7 @@ inputs:
     default: true 
 outputs:
   wheel:
-    description: 'full s3 path of the s3 wheel'
+    description: 'Full path of the wheel'
     value: ${{ steps.push-s3.outputs.wheel }}
 
 runs:
@@ -21,7 +21,6 @@ runs:
       id: push-s3
       shell: bash
       run:  |
-            echo ${{ inputs.filename }}
             if ${{ inputs.internal }}; then
               dst=s3://nm-actions-test/internal/${{ github.event.repository.name }}/
             else

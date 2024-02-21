@@ -3,7 +3,7 @@ description: "Pull PyPi wheel"
 
 inputs:
   filename:
-    description: 'file to pull'
+    description: 'File to pull from s3 bucket'
     required: true
   internal:
     description: 'Push to internal pypi or not'
@@ -19,7 +19,5 @@ runs:
     - name: Push to s3
       shell: bash
       run:  |
-            echo ${{ inputs.filename }}
-            echo ${{ inputs.dst }}
             aws s3 cp ${{ inputs.filename }} ${{ inputs.dst }}
             exitCode=$?
