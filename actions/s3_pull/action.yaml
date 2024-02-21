@@ -17,3 +17,4 @@ runs:
       run:  |
             aws s3 cp ${{ inputs.filename }} ${{ inputs.dst }}
             exitCode=$?
+  
