@@ -1,4 +1,4 @@
-ARG SOURCE=ghcr.io/neuralmagic/cuda-python3.8:cuda11.3.1
+ARG SOURCE=ghcr.io/neuralmagic/cuda-python3.8
 ARG PACKAGE_NAME="sparseml-nightly[onnxruntime,torchvision,transformers,yolov5,ultralytics]"
 
 FROM $SOURCE
