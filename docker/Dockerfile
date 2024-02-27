@@ -1,7 +1,7 @@
 ARG SOURCE=ghcr.io/neuralmagic/cuda-python3.8
 ARG PACKAGE_NAME="sparseml-nightly[onnxruntime,torchvision,transformers,yolov5,ultralytics]"
 
-FROM ghcr.io/neuralmagic/cuda-python3.8:latest
+FROM ghcr.io/neuralmagic/deepsparse-nightly:base-20240227
 
 RUN pip install --no-cache-dir $PACKAGE_NAME
 
