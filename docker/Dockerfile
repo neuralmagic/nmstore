@@ -5,6 +5,6 @@ FROM $SOURCE
 
 RUN pip install --no-cache-dir $PACKAGE_NAME
 
-HEALTHCHECK CMD python -c 'import sparseml'
+HEALTHCHECK CMD python3.8 -c 'import sparseml'
 RUN pip list | grep sparseml
 CMD bash
