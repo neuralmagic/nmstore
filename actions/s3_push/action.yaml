@@ -1,0 +1,31 @@
+name: "Push PyPi Wheel"
+description: "Push PyPi wheel"
+
+inputs:
+  filename:
+    description: 'File to push to s3'
+    required: true
+  internal:
+    description: 'Push to internal pypi or not'
+    required: false
+    default: true 
+outputs:
+  wheel:
+    description: 'Full path of the wheel'
+    value: ${{ steps.push-s3.outputs.wheel }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Push to s3
+      id: push-s3
+      shell: bash
+      run:  |
+            if ${{ inputs.internal }}; then
+              dst=s3://nm-actions-test/internal/${{ github.event.repository.name }}/
+            else
+              dst=s3://nm-actions-test/${{ github.event.repository.name }}/
+            fi
+            echo "wheel=$dst$(basename ${{ inputs.filename }})" >> $GITHUB_OUTPUT
+            aws s3 cp ${{ inputs.filename }} $dst
+            exitCode=$?

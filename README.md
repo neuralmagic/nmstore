@@ -1,2 +1,2 @@
-# nmstore
-Neural Magic GHA
+# Neural Magic Actions
+Actions for Neural Magic GHA

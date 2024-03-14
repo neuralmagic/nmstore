@@ -1,0 +1,19 @@
+name: "Pull PyPi Wheel"
+description: "Pull PyPi wheel"
+
+inputs:
+  filename:
+    description: 'File to pull from s3 bucket'
+    required: true
+  dst:
+    description: 'Folder to pull down wheel file'
+    required: false
+    default: true 
+runs:
+  using: "composite"
+  steps:
+    - name: Push to s3
+      shell: bash
+      run:  |
+            aws s3 cp ${{ inputs.filename }} ${{ inputs.dst }}
+            exitCode=$?
