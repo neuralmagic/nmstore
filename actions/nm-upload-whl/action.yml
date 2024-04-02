@@ -1,0 +1,32 @@
+name: upload whl
+description: 'upload specified whl to pypi server'
+inputs:
+  python:
+    description: 'python version, e.g. 3.10.12'
+    required: true
+  server:
+    description: 'pypi server ip'
+    required: true
+  username:
+    description: 'username associated with upload'
+    required: true
+  password:
+    description: 'password associated with username'
+    required: true
+outputs:
+  status:
+    description: 'return status from upload'
+    value: ${{ steps.upload.outputs.status }}
+runs:
+  using: composite
+  steps:
+    - id: upload
+      run: |
+        pip3 install twine
+        BASE=$(./scripts/convert-version ${{ inputs.python }})
+        WHL=$(find . -type f -name "*${BASE}*.whl")
+        twine upload --verbose -u ${{ inputs.username }} -p ${{ inputs.password }} --repository-url http://${{ inputs.server }}:8080/ ${WHL}
+        SUCCESS=$?
+        echo "status=${STATUS}" >> "$GITHUB_OUTPUT"
+        exit ${SUCCESS}
+      shell: bash
