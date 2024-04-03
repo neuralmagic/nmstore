@@ -20,11 +20,13 @@ runs:
     - name: Push to s3
       id: push-s3
       shell: bash
+      env:
+        BUCKET: ${{ secrets.BUCKET_NAME }}
       run:  |
             if ${{ inputs.internal }}; then
-              dst=s3://${{ secrets.BUCKET_NAME }}/internal/${{ github.event.repository.name }}/
+              dst=s3://$BUCKET/internal/${{ github.event.repository.name }}/
             else
-              dst=s3://${{ secrets.BUCKET_NAME }}/${{ github.event.repository.name }}/
+              dst=s3://$BUCKET/${{ github.event.repository.name }}/
             fi
             echo "wheel=$dst$(basename ${{ inputs.filename }})" >> $GITHUB_OUTPUT
             aws s3 cp ${{ inputs.filename }} $dst
