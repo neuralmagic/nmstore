@@ -7,11 +7,17 @@ inputs:
   server:
     description: 'pypi server ip'
     required: true
+  port:
+    description: 'port to use for pypi server, e.g. 8080'
+    required: true
   username:
     description: 'username associated with upload'
     required: true
   password:
     description: 'password associated with username'
+    required: true
+  whl:
+    description: 'filepath of whl to put pushed'
     required: true
 outputs:
   status:
@@ -23,9 +29,13 @@ runs:
     - id: upload
       run: |
         pip3 install twine
-        BASE=$(./scripts/convert-version ${{ inputs.python }})
-        WHL=$(find . -type f -name "*${BASE}*.whl")
-        twine upload --verbose -u ${{ inputs.username }} -p ${{ inputs.password }} --repository-url http://${{ inputs.server }}:8080/ ${WHL}
+        PORT=${{ inputs.port }}
+        if [ -z "${PORT}" ]; then
+          echo "port unspecified"
+        else
+          PORT=":${PORT}"
+        fi
+        twine upload --verbose -u ${{ inputs.username }} -p ${{ inputs.password }} --repository-url http://${{ inputs.server }}${PORT}/ ${{ inputs.whl }}
         SUCCESS=$?
         echo "status=${STATUS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
