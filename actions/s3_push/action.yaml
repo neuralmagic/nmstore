@@ -9,6 +9,9 @@ inputs:
     description: 'Push to internal pypi or not'
     required: false
     default: true 
+  bucket_name:
+    type: string
+    required: true
 outputs:
   wheel:
     description: 'Full path of the wheel'
@@ -20,13 +23,11 @@ runs:
     - name: Push to s3
       id: push-s3
       shell: bash
-      env:
-        BUCKET: ${{ secrets.BUCKET_NAME }}
       run:  |
             if ${{ inputs.internal }}; then
-              dst=s3://$BUCKET/internal/${{ github.event.repository.name }}/
+              dst=s3://${{ inputs.bucket_name }}/internal/${{ github.event.repository.name }}/
             else
-              dst=s3://$BUCKET/${{ github.event.repository.name }}/
+              dst=s3://${{ inputs.bucket_name }}/${{ github.event.repository.name }}/
             fi
             echo "wheel=$dst$(basename ${{ inputs.filename }})" >> $GITHUB_OUTPUT
             aws s3 cp ${{ inputs.filename }} $dst
