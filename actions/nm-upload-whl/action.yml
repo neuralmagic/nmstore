@@ -1,9 +1,6 @@
 name: upload whl
 description: 'upload specified whl to pypi server'
 inputs:
-  python:
-    description: 'python version, e.g. 3.10.12'
-    required: true
   server:
     description: 'pypi server ip'
     required: true
