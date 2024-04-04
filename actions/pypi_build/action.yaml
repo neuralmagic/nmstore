@@ -47,4 +47,4 @@ runs:
                 exitCode=0
             fi
             echo "=========== Generated build ==========="
-            ls
+            ls dist/
