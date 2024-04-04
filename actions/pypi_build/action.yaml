@@ -35,7 +35,6 @@ runs:
               sed -i 's/dev_number = None/dev_number = '"$name"'/g' src/${{ github.event.repository.name }}/version.py
             fi
             status=$(make -B build || echo 'FAILED')
-            deactivate
             echo "=========== Build log ==========="
             echo "filename=dist/*.whl" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
