@@ -26,13 +26,8 @@ runs:
     - name: build 
       shell: bash
       run:  |
-            pwd
-            sudo apt-get -y install python3-pip
-            pip3 --version
-            sudo pip3 install virtualenv
-            virtualenv venv
-            source venv/bin/activate
-            pip install -e .
+            pip3 install wheel
+            pip3 install -e .
             name="${{ inputs.name }}"
             if ${{ inputs.release }}; then
               sed -i 's/is_release = False/is_release = True/g' src/${{ github.event.repository.name }}/version.py
@@ -41,7 +36,6 @@ runs:
               sed -i 's/dev_number = None/dev_number = '"$name"'/g' src/${{ github.event.repository.name }}/version.py
             fi
             status=$(make -B build || echo 'FAILED')
-            deactivate
             echo "=========== Build log ==========="
             echo "filename=dist/*.whl" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
