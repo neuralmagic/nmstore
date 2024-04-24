@@ -1,0 +1,27 @@
+name: publish whl to public pypi
+description: 'upload specified whl to public pypi'
+inputs:
+  username:
+    description: 'username associated with upload'
+    required: true
+  password:
+    description: 'password associated with username'
+    required: true
+  whl:
+    description: 'filepath of whl to put pushed'
+    required: true
+outputs:
+  status:
+    description: 'return status from upload'
+    value: ${{ steps.upload.outputs.status }}
+runs:
+  using: composite
+  steps:
+    - id: upload
+      run: |
+        pip3 install twine
+        twine upload --verbose -u ${{ inputs.username }} -p ${{ inputs.password }} ${{ inputs.whl }}
+        SUCCESS=$?
+        echo "status=${STATUS}" >> "$GITHUB_OUTPUT"
+        exit ${SUCCESS}
+      shell: bash
