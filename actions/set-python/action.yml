@@ -1,0 +1,31 @@
+name: Set Python
+description: Sets the Python version and creates a virtual environment
+
+inputs:
+  python:
+    description: Python version to use (e.g., 3.10.12)
+    required: true
+  venv:
+    description: Base name for virtual environment
+    required: true
+
+outputs:
+  version:
+    description: Full Python version (from `python --version`)
+    value: ${{ steps.set_python.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - id: set_python
+      shell: bash
+      run: |
+        pyenv local ${{ inputs.python }}
+
+        COMMIT=${{ github.sha }}
+        VENV="${{ inputs.venv }}-${COMMIT:0:7}"
+        pyenv virtualenv --force ${VENV}
+        source $(pyenv root)/versions/${{ inputs.python }}/envs/${VENV}/bin/activate
+
+        VERSION=$(python --version)
+        echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
