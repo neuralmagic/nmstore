@@ -1,10 +1,10 @@
 # install-testmo
 
-This custom action will install Testmo (and the latest Node.js as a prerequisite).
+This action will install Testmo (and the latest Node.js as a prerequisite).
 
 ## Example usage
 
-Below is an example usage of this action from an external repository:
+An example usage of this action from an external repository:
 
 ```yaml
 steps:
