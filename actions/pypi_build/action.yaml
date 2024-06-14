@@ -29,7 +29,7 @@ runs:
             pip3 install wheel
             pip3 install -e .
             name="${{ inputs.name }}"
-            ver_file=`find . type f -name 'version.py'`
+            ver_file=`find . -type f -name 'version.py'`
             if ${{ inputs.release }}; then
               sed -i 's/is_release = False/is_release = True/g' ${ver_file}
             elif ${{ inputs.dev }}; then
