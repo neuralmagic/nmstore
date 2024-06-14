@@ -1,5 +1,5 @@
 name: "Build PyPi"
-description: "Build PyPi wheel"
+description: "Build PyPi wheel for ML repos e.g. sparseml, compressed-tensors"
 
 inputs:
     dev:
