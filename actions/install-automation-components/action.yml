@@ -1,0 +1,10 @@
+name: Install Automation Components
+description: Install various components used during automation
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        sudo apt-get update --fix-missing
+        sudo apt-get install -y curl git-all wget
