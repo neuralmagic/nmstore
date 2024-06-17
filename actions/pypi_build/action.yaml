@@ -26,16 +26,18 @@ runs:
     - name: build 
       shell: bash
       run:  |
-            pip3 install wheel
-            pip3 install -e .
             name="${{ inputs.name }}"
-            ver_file=`find . -type f -name 'version.py'`
+            package_name=$(basename "$(pwd)")
+            package_name_sanitized=${package_name//-/_}
+            ver_file=$(find . -type f -path "*/${package_name_sanitized}/version.py")
             if ${{ inputs.release }}; then
               sed -i 's/is_release = False/is_release = True/g' ${ver_file}
             elif ${{ inputs.dev }}; then
               sed -i 's/is_dev = False/is_dev = True/g' ${ver_file}
               sed -i 's/dev_number = None/dev_number = '"$name"'/g' ${ver_file}
             fi
+            pip3 install wheel
+            pip3 install -e .
             status=$(make -B build || echo 'FAILED')
             echo "=========== Build log ==========="
             echo "filename=dist/*.whl" >> "$GITHUB_OUTPUT"
@@ -49,3 +51,4 @@ runs:
             fi
             echo "=========== Generated build ==========="
             ls dist/
+
