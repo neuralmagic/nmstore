@@ -40,7 +40,7 @@ runs:
             pip3 install -e .
             status=$(make -B build || echo 'FAILED')
             echo "=========== Build log ==========="
-            echo "filename=dist/*.whl" >> "$GITHUB_OUTPUT"
+            echo "filename=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
             if [[ "${status}" = "FAILED" ]]; then
                 echo "${{ github.event.repository.name }} build failed"
