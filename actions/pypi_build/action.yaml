@@ -23,13 +23,12 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: build 
+    - name: build
+      id: build
       shell: bash
       run:  |
             name="${{ inputs.name }}"
-            package_name=$(basename "$(pwd)")
-            package_name_sanitized=${package_name//-/_}
-            ver_file=$(find . -type f -path "*/${package_name_sanitized}/version.py")
+            ver_file=$(find . -type f -name "version.py")
             if ${{ inputs.release }}; then
               sed -i 's/is_release = False/is_release = True/g' ${ver_file}
             elif ${{ inputs.dev }}; then
