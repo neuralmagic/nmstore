@@ -41,7 +41,7 @@ runs:
             pip3 install wheel
             status=$(make -B build || echo 'FAILED')
             echo "=========== Build log ==========="
-            echo $status
+            echo "$status"
             echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
             echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
