@@ -39,7 +39,7 @@ runs:
               sed -i 's/dev_number = None/dev_number = '"$name"'/g' ${ver_file}
             fi
             pip3 install wheel
-            pip3 install -e .
+            #pip3 install -e .
             status=$(make -B build || echo 'FAILED')
             echo "=========== Build log ==========="
             echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
