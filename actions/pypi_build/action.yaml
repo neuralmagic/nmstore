@@ -15,9 +15,12 @@ inputs:
       required: false
      
 outputs:
-    filename:
+    whlname:
       description: 'wheel filename'
       value: ${{ steps.build.outputs.filename }}
+    tarname:
+      description: 'tar.gz filename'
+      value: ${{ steps.build.outputs.tarname }}
 
 # can we just pass in build args instead of updating the variables in version.py?
 runs:
@@ -40,6 +43,7 @@ runs:
             status=$(make -B build || echo 'FAILED')
             echo "=========== Build log ==========="
             echo "filename=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
+            echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
             echo "=========== Build status ==========="
             if [[ "${status}" = "FAILED" ]]; then
                 echo "${{ github.event.repository.name }} build failed"
