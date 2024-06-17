@@ -15,9 +15,11 @@ This action requires `pyenv` to be installed.
 * `python`: the python version to use
 * `venv`: the base name for the virtual environment
 
-### Output
+### Outputs
 
 * `version`: the full Python version (from `python --version`)
+* `venv_path`: the full path to the virtual environment’s base folder
+  * ex. `source ${{ steps.set_python.outputs.venv_path }}/bin/activate`
 
 ### Example
 
