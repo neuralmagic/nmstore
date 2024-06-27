@@ -8,7 +8,7 @@ runs:
       run: |
         # packages
         sudo apt-get update --fix-missing
-        sudo apt-get install -y curl git-all wget
+        sudo apt-get install -y curl git-all wget jq
         # gh cli
         (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
         && sudo mkdir -p -m 755 /etc/apt/keyrings \
