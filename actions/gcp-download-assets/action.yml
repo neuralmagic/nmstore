@@ -4,9 +4,6 @@ inputs:
   run_id:
     description: 'GHA run id of build'
     required: true
-  asset_identifier:
-    description: 'REGEX that is used to find the asset.'
-    required: true
 outputs:
   asset:
     description: 'REPO relative path to downloaded "whl"'
@@ -17,6 +14,4 @@ runs:
     - id: download
       run: |
         gcloud storage cp ${{ secrets.GCP_BUILD_ASSETS }}/${{ inputs.run_id }}/ . --recursive
-        ASSET=$(find ${{ inputs.run_id }} -type f -iname "${{ inputs.asset_identifier }}")
-        echo "asset=${ASSET}" >> "$GITHUB_OUTPUT"
       shell: bash
