@@ -16,7 +16,7 @@ Used to download build assets from GCP. Assets are identified by the Github Acti
 ```yaml
 steps:
   - name:
-    uses: neuralmagic/nm-actions/actions/upload-assets@main
+    uses: neuralmagic/nm-actions/actions/gcp-download-assets@main
     with:
         run_id: '0123456789'
 ```

@@ -1,8 +1,8 @@
 name: upload asset to GCP
-description: 'upload specified whl to "nm-pypi" backing store'
+description: 'upload specified asset to specified bucket target'
 inputs:
   bucket_target:
-    description: 'bucket target, result will be "bucket_target/asset"'
+    description: 'bucket target, result will be object at "bucket_target/asset"'
     required: true
   asset:
     description: 'REPO relative path for asset to be uploaded'

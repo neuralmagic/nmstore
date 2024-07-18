@@ -1,6 +1,6 @@
 # Summary
 
-Used to upload build assets to "nm-pypi". Requires that the assets are available locally, e.g. they have already been downloaded from our backing store.
+Used to upload build asset to GCP. Requires that the assets are available locally, e.g. they have already been downloaded from our backing store.
 
 **Requires "runner" to already be authenticated.**
 
@@ -12,7 +12,7 @@ Used to upload build assets to "nm-pypi". Requires that the assets are available
 ```yaml
 steps:
   - name: upload asset to GCP
-    uses: neuralmagic/nm-actions/actions/upload-assets@main
+    uses: neuralmagic/nm-actions/actions/gcp-upload-asset@main
     with:
         bucket_target: 'gs://some-bucket/some-prefix'
         asset: 'dist/awesome-build.asset'
