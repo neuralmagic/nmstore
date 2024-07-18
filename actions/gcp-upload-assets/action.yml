@@ -1,0 +1,19 @@
+name: upload asset to GCP
+description: 'upload specified whl to "nm-pypi" backing store'
+inputs:
+  bucket_target:
+    description: 'bucket target, result will be "bucket_target/asset"'
+    required: true
+  asset:
+    description: 'REPO relative path for asset to be uploaded'
+    required: true
+runs:
+  using: composite
+  steps:
+    - id: upload
+      run: |
+        ASSET=$(basename ${{ inputs.asset }})
+        echo "asset: ${{ inputs.asset }}"
+        echo "asset basename: ${ASSET}"
+        gcloud storage cp ${{ inputs.asset }} ${{ inputs.bucket_target }}/${ASSET}
+      shell: bash
