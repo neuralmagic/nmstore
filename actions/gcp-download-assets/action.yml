@@ -1,0 +1,20 @@
+name: download run assets from GCP
+description: 'recursively downloads build assets from specified GHA run'
+inputs:
+  bucket_source:
+    description: 'bucket source, location from which assets are downloaded'
+    required: true
+  run_id:
+    description: 'GHA run id of build'
+    required: true
+outputs:
+  asset:
+    description: 'REPO relative path to downloaded "whl"'
+    value: ${{ steps.download.outputs.asset }}
+runs:
+  using: composite
+  steps:
+    - id: download
+      run: |
+        gcloud storage cp ${{ inputs.bucket_source }}/${{ inputs.run_id }}/ . --recursive
+      shell: bash

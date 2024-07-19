@@ -1,0 +1,21 @@
+name: download run assets from GCP
+description: 'find asset using specified identifier and return REPO relative filepath'
+inputs:
+  run_id:
+    description: 'GHA run id of build'
+    required: true
+  asset_identifier:
+    description: 'REGEX that is used to find the asset.'
+    required: true
+outputs:
+  asset:
+    description: 'REPO relative path to downloaded "whl"'
+    value: ${{ steps.find.outputs.asset }}
+runs:
+  using: composite
+  steps:
+    - id: find
+      run: |
+        ASSET=$(find ${{ inputs.run_id }} -type f -iname "${{ inputs.asset_identifier }}")
+        echo "asset=${ASSET}" >> "$GITHUB_OUTPUT"
+      shell: bash
