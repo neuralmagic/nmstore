@@ -18,5 +18,6 @@ steps:
   - name:
     uses: neuralmagic/nm-actions/actions/gcp-download-assets@main
     with:
+        bucket_source: 'gs://some-bucket/some-prefix'
         run_id: '0123456789'
 ```
