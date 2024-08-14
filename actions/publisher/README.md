@@ -11,5 +11,7 @@ steps:
     with:
       publish_pypi: true
       publish_pypi_internal: true
+      timestamp: true
+      prefix: "-nightly"
       build_number: ${{ github.event.pull_request.number }}
 ```

@@ -17,10 +17,15 @@ inputs:
     required: false
     default: ${{ github.event.pull_request.number || github.run_id }}
 
-  timestamp:
-    description: "Determines whether the date prefix will added to the distribution name or not"
+  prefix:
+    description: "Determines whether the prefix will added to the distribution name or not"
     required: false
     default: false
+
+  timestamp:
+    description: "Determines whether the date suffix will added to the distribution name or not"
+    required: false
+    default: ""
 
 outputs:
   whlname:
@@ -42,12 +47,43 @@ runs:
       run: |
         python3 -m tox -e build
 
-        # Generate timestamp if needed
+        # Generate date suffix if needed
         if [ "${{ inputs.timestamp }}" == "true" ]; then
-          DATE=$(date +%Y%m%d)
-          mv dist/*.whl dist/*-${DATE}.whl
-          mv dist/*.tar.gz dist/*-${DATE}.tar.gz
+          DATE="[$(date +%Y%m%d)]"
+        else
+          DATE=""
         fi
+
+        # Define prefix if provided
+        PREFIX="${{ inputs.prefix }}"
+        if [ -n "$PREFIX" ]; then
+          PREFIX="${PREFIX}"
+        else
+          PREFIX=""
+        fi
+
+        # Rename files
+        for FILE in dist/*; do
+          if [[ -f "$FILE" ]]; then
+            BASE_NAME=$(basename "$FILE")
+            EXT="${BASE_NAME##*.}"
+            NAME="${BASE_NAME%.*}"
+
+            # Append prefix if provided
+            if [ -n "$PREFIX" ]; then
+              NAME="${NAME}${PREFIX}"
+            fi
+
+            # Append timestamp if provided
+            if [ -n "$DATE" ]; then
+              NEW_NAME="${NAME}${DATE}.${EXT}"
+            else
+              NEW_NAME="${NAME}.${EXT}"
+            fi
+
+            mv "$FILE" "dist/$NEW_NAME"
+          fi
+        done
 
         echo "=========== Build log ==========="
         echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
