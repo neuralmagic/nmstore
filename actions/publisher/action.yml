@@ -4,13 +4,11 @@ description: "Build and publish PyPi wheel using tox for ML repos e.g. sparseml,
 inputs:
   publish_pypi_internal:
     description: "Publish the distribution to the internal PyPI server"
-    required: false
-    default: true
+    required: true
 
   publish_pypi:
     description: "Publish the distribution to the pypi.org"
-    required: false
-    default: false
+    required: true
 
   build_number:
     description: "Typically the PR number or the Run ID as a fallback solution"
