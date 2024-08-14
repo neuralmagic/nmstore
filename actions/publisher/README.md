@@ -1,6 +1,6 @@
 # Summary
 
-Used to build and publish packages to internal and public PyPI servers base on the `build_type` input parameter.
+Used to build and publish packages to internal and public package indexes using tox automation engine.
 
 ## Usage
 
@@ -9,7 +9,7 @@ steps:
   - name:
     uses: neuralmagic/nm-actions/actions/publisher@main
     with:
-      publish_pypi: true
+      publish_pypi: false
       publish_pypi_internal: true
       timestamp: true
       prefix: "-nightly"
