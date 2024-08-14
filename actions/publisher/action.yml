@@ -1,0 +1,65 @@
+name: "Build and publish the distribution to the PyPI server"
+description: "Build and publish PyPi wheel using tox for ML repos e.g. sparseml, compressed-tensors"
+
+inputs:
+  publish_pypi_internal:
+    description: "Publish the distribution to the internal PyPI server"
+    required: false
+    default: true
+
+  publish_pypi:
+    description: "Publish the distribution to the pypi.org"
+    required: false
+    default: false
+
+  build_number:
+    description: "Typically the PR number or the Run ID as a fallback solution"
+    required: false
+    default: ${{ github.event.pull_request.number || github.run_id }}
+
+outputs:
+  whlname:
+    description: "wheel filename"
+    value: ${{ steps.build.outputs.whlname }}
+  tarname:
+    description: "tar.gz filename"
+    value: ${{ steps.build.outputs.tarname }}
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Install tox
+      run: python3 -m pip install --user tox build
+
+    - name: Build the distribution with tox
+      id: build
+      run: |
+        python3 -m tox -e build
+
+        echo "=========== Build log ==========="
+        echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
+        echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
+        echo "=========== Build completed ==========="
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v2.1.3
+      with:
+        project_id: ${{ secrets.GCP_PROJECT }}
+        workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.NM_PYPI_SA }}
+
+    - name: Upload to Internal PyPI
+      if: ${{ inputs.publish_pypi_internal }}
+      uses: neuralmagic/nm-actions/actions/gcp-upload-asset@v1.1.0
+      with:
+        bucket_target: ${{ secrets.GCP_NM_PYPI_DIST }}
+        asset: ${{ steps.build.outputs.whlname }}
+
+    - name: Publish to Public PyPI
+      if: ${{ inputs.publish_pypi }}
+      uses: neuralmagic/nm-actions/actions/publish-whl@v1.0.0
+      with:
+        username: ${{ secrets.PYPI_PUBLIC_USER }}
+        password: ${{ secrets.PYPI_PUBLIC_AUTH }}
+        whl: ${{ steps.build.outputs.whlname }}
