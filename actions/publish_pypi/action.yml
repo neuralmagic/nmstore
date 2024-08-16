@@ -14,9 +14,9 @@ inputs:
     description: "Applies a set of rules depending on the environment. Available values: (dev|release|nightly|custom)"
     required: true
 
-    custom_package_name:
-      description: "Custom package name could be used along wtih the 'custom' build_type"
-      required: false
+  custom_package_name:
+    description: "Custom package name could be used along wtih the 'custom' build_type"
+    required: false
 
 outputs:
   whlname:
@@ -30,6 +30,17 @@ runs:
   using: "composite"
 
   steps:
+    - name: Validate input parameters
+      run: |
+        if [ "${{ inputs.publish_pypi }}" == "false" ] && [ "${{ inputs.publish_pypi_internal }}" == "false" ]; then
+          echo "Error: At least one of 'publish_pypi' or 'publish_pypi_internal' must be set to 'true'"
+          exit 1
+        fi
+        if [ "${{ inputs.built_type }}" == "custom" ] && [ "${{ inputs.custom_package_name }}" == "" ]; then
+          echo "Error: If 'built_type' is set to 'custom' the 'custom_package_name' must be specified"
+          exit 1
+        fi
+
     - name: Install tox
       run: python3 -m pip install --user tox build
 
