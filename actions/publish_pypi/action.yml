@@ -10,10 +10,6 @@ inputs:
     description: "Publish the distribution to the pypi.org"
     required: true
 
-  build_type:
-    description: "Applies a set of rules depending on the environment. Available values: (dev|release|nightly)"
-    required: true
-
 outputs:
   whlname:
     description: "wheel filename"

@@ -11,5 +11,4 @@ steps:
     with:
       publish_pypi: true
       publish_pypi_internal: true
-      build_type: 'release'
 ```
