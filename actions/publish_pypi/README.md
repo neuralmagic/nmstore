@@ -7,11 +7,9 @@ Used to build and publish packages to internal and public package indexes using 
 ```yaml
 steps:
   - name:
-    uses: neuralmagic/nm-actions/actions/publisher@main
+    uses: neuralmagic/nm-actions/actions/publish_pypi@main
     with:
-      publish_pypi: false
+      publish_pypi: true
       publish_pypi_internal: true
-      timestamp: true
-      prefix: "-nightly"
-      build_number: ${{ github.event.pull_request.number }}
+      build_type: 'release'
 ```

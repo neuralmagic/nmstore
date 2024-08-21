@@ -10,13 +10,9 @@ inputs:
     description: "Publish the distribution to the pypi.org"
     required: true
 
-  built_type:
-    description: "Applies a set of rules depending on the environment. Available values: (dev|release|nightly|custom)"
+  build_type:
+    description: "Applies a set of rules depending on the environment. Available values: (dev|release|nightly)"
     required: true
-
-  custom_package_name:
-    description: "Custom package name could be used along wtih the 'custom' build_type"
-    required: false
 
 outputs:
   whlname:
@@ -36,10 +32,6 @@ runs:
           echo "Error: At least one of 'publish_pypi' or 'publish_pypi_internal' must be set to 'true'"
           exit 1
         fi
-        if [ "${{ inputs.built_type }}" == "custom" ] && [ "${{ inputs.custom_package_name }}" == "" ]; then
-          echo "Error: If 'built_type' is set to 'custom' the 'custom_package_name' must be specified"
-          exit 1
-        fi
 
     - name: Install tox
       run: python3 -m pip install --user tox build
@@ -48,52 +40,6 @@ runs:
       id: build
       run: |
         python3 -m tox -e build
-
-        # suffixes dispatcher
-        SUFFIX=""
-        case ${{ inputs.built_type }} in
-          "dev")
-            SUFFIX="-dev-${{ github.event.pull_request.number }}"
-            ;;
-          "nightly")
-            SUFFIX="-nightly-$(date +%Y%m%d)"
-            ;;
-          "staging")
-            ;;
-          "release")
-            ;;
-          "custom")
-            if [[ -z ${{ inputs.custom_package_name }} ]]; then
-              echo "Error: Custom build_type requires a custom_package_name input"
-              exit 1
-            fi
-            SUFFIX=""
-            ;;
-          *)
-            echo "Invalid build_type: ${{ inputs.built_type }}"
-            exit 1
-        esac
-
-        echo "::set-output name=suffix::$SUFFIX"
-
-    - name: Rename build artifacts
-      run: |
-        # Retrieve package name from previous step
-        PACKAGE_NAME="${{ inputs.custom_package_name || 'guidellm' }}"
-
-        # Extract version from distribution file name (e.g., guidellm-1.2.3-dev.whl)
-        VERSION=$(find dist -name "*.whl" | cut -d '-' -f 2)
-
-        # Generate final file name based on build_type and package name
-        NEW_NAME="${PACKAGE_NAME}${SUFFIX}-${VERSION}.whl"
-        TAR_NAME="${PACKAGE_NAME}${SUFFIX}-${VERSION}.tar.gz"
-
-        mv dist/* dist/$NEW_NAME
-        cp dist/$NEW_NAME dist/$TAR_NAME
-
-        # Set outputs for subsequent steps
-        echo "::set-output name=whlname::$NEW_NAME"
-        echo "::set-output name=tarname::$TAR_NAME"
 
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v2.1.3
