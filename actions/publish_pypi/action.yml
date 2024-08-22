@@ -30,7 +30,10 @@ runs:
         fi
 
     - name: Install tox
-      run: python3 -m pip install --user tox build
+      run: python3 -m pip install --user tox build toml loguru
+
+    - name: Inject build properties
+      run: python3 nm-actions/utils/inject_build_props.py
 
     - name: Build the distribution with tox
       id: build
