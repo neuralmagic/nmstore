@@ -13,8 +13,8 @@ inputs:
   results:
     description: "directory of JUnit '*.xml' formatted result files"
     required: true
-  thread_resources:
-    description: "XML file with TestMo resources to attach to this thread"
+  resources_file:
+    description: "JSON file with TestMo resources to attach to this thread"
     default: ""
     required: false
   step_status:
@@ -47,15 +47,18 @@ runs:
           echo "submitting results to TESTMO run ..."
           ## not checking testmo_url and token as this should be
           ## called between "create" and "complete"
-          submit_thread_options=( \
-            --instance ${inputs.testmo_url} \
-            --run-id ${inputs.testmo_run_id} \
-            --results ${inputs.results})
-          if [[ "${{ inputs.thread_resources }}" ]]; then
-            submit_thread_options+=(--thread-resources ${inputs.thread_resources})
+          if [[ -f "${{ inputs.resources_file }}" ]]; then
+            thread_resources=${inputs.resources_file})
+          else
+            echo '{}' > thread_resources.json
+            thread_resources=thread_resources.json
           fi
-          submit_thread_options+=(-- ./.github/scripts/step-status ${{ inputs.step_status }})
-          npx testmo automation:run:submit-thread "${submit_thread_options[@]}"
+          npx testmo automation:run:submit-thread \
+            --instance ${TESTMO_URL} \
+            --run-id ${TESTMO_RUN_ID} \
+            --results ${RESULTS} \
+            --thread-resources ${thread_resources} \
+            -- ./.github/scripts/step-status ${{ inputs.step_status }}        
             SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
