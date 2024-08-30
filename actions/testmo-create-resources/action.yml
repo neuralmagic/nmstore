@@ -4,16 +4,8 @@ inputs:
   resources_file:
     description: "file name where the resources will be stored"
     required: true
-  python_version:
-    description: "version of python"
-    default: ""
-    required: false
-  runner:
-    description: "runner hardware configuration label"
-    default: ""
-    required: false
-  lm_eval_configuration:
-    description: "list of configurations tested with LM-Eval"
+  resources_json:
+    description: "stringified JSON associative array of resource fields to add.  Each field's key is the name of the field, and it's value is the value of the field."
     default: ""
     required: false
 runs:
@@ -21,18 +13,5 @@ runs:
   steps:
     - run: |
         echo "composing TESTMO resources file ${{ inputs.resources_file }} ..."
-        declare -A fields=( \
-          ["python"]="${{inputs.python_version}}" \
-          ["runner"]="${{inputs.runner}}" \
-          ["lm_eval_configuration"]="${{inputs.lm_eval_configuration}}" \
-        )
-        for i in "${!fields[@]}"; do 
-          if [[ "${fields[$i]}" ]]; then
-            npx testmo automation:resources:add_field \
-              --resources "${{ inputs.resources_file }}" \
-              --type string \
-              --name "${i}" \
-              --value "${fields[$i]}"
-          fi
-        done
+        python3 compose_testmo_resources_file.py --resources_json ${{ inputs.resources_json }} --destination ${{ inputs.resources_file }}
       shell: bash
