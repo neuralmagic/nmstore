@@ -57,7 +57,7 @@ runs:
             ls dist/
             echo "=========== Build log ==========="
             echo "$status"
-            echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
-            echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
+            echo "whlname=$(find dist -name '*.whl' | basename)" >> "$GITHUB_OUTPUT"
+            echo "tarname=$(find dist -name '*.tar.gz' | basename)" >> "$GITHUB_OUTPUT"
             echo "status=${status}" >> "$GITHUB_OUTPUT"
             exit ${status}
