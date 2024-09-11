@@ -10,6 +10,9 @@ inputs:
   source:
     description: "source for testmo, e.g. 'build-test'"
     required: true
+  run_name:
+    description: 'run name'
+    required: false
 outputs:
   id:
     description: 'testmo run id'
@@ -41,9 +44,12 @@ runs:
           exit 1
         fi
         ## construct name
-        BRANCH_NAME=${GITHUB_REF_NAME}
-        TMP=${ACTOR}-${BRANCH_NAME}
-        TESTMO_RUN_NAME=$(echo ${TMP} | awk '{print tolower($0)}')
+        TESTMO_RUN_NAME="${{ inputs.run_name }}"
+        if [[ -z "${{ inputs.run_name }}" ]]; then
+            BRANCH_NAME=${GITHUB_REF_NAME}
+            TMP=${ACTOR}-${BRANCH_NAME}
+            TESTMO_RUN_NAME=$(echo ${TMP} | awk '{print tolower($0)}')
+        fi
         echo "test run name: ${TESTMO_RUN_NAME}"
         ## create testmo run
         TESTMO_ID=$(npx testmo automation:run:create \

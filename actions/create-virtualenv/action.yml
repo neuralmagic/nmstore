@@ -1,0 +1,22 @@
+name: create virtualenv
+description: 'create virtualenv using input name'
+inputs:
+  venv:
+    description: 'name of virtualenv'
+    required: true
+outputs:
+  penv:
+    description: 'path of the created virtualenv'
+    value: ${{ steps.env.outputs.penv }}
+runs:
+  using: composite
+  steps:
+  - id: env
+    run: |
+      # install virtualenv
+      python -m pip install virtualenv
+      python -m virtualenv ${{ inputs.venv }}
+      pwd; ls -al
+      echo "penv=$(pwd)/${{ inputs.venv }}" >> "$GITHUB_OUTPUT" 
+    shell: bash
+
