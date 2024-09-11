@@ -61,4 +61,3 @@ runs:
             echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
             echo "status=${status}" >> "$GITHUB_OUTPUT"
             exit ${status}
-      shell: bash
