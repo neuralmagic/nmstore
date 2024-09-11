@@ -1,0 +1,21 @@
+name: install whl
+description: 'installs found whl based on python version into specified venv'
+inputs:
+  venv:
+    description: "path of virtualenv"
+    required: true
+  name:
+    description: "name contained in the whl name, e.g. llmcompressor, compressed_tensors etc"
+    required: true
+runs:
+  using: composite
+  steps:
+    - id: install_whl
+      run: |
+        source ${{ inputs.venv }}/bin/activate
+        python --version
+        WHL=$(find . -type f -iname "${{ inputs.name }}*.whl")
+        pip install ${WHL}[dev]
+        version=$(pip freeze | grep "${{ inputs.name }}")
+        echo "installed ${version}"
+      shell: bash
