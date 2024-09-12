@@ -1,3 +1,4 @@
+---
 name: Set Python
 description: Sets the Python version and creates a virtual environment
 
@@ -22,16 +23,13 @@ runs:
   steps:
     - id: set_python
       shell: bash
-      run: |
+      run: |-
         pyenv local ${{ inputs.python }}
-
         COMMIT=${{ github.sha }}
         VENV="${{ inputs.venv }}-${COMMIT:0:7}"
         pyenv virtualenv --force "$VENV"
-
         VENV_PATH="$(pyenv root)/versions/${{ inputs.python }}/envs/$VENV"
         source "$VENV_PATH/bin/activate"
         VERSION=$(python --version)
-
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
         echo "venv_path=$VENV_PATH" >> "$GITHUB_OUTPUT"

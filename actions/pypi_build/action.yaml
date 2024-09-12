@@ -1,57 +1,57 @@
-name: "Build PyPi"
-description: "Build PyPi wheel for ML repos e.g. sparseml, compressed-tensors"
+---
+name: Build PyPi
+description: Build PyPi wheel for ML repos e.g. sparseml, compressed-tensors
 
 inputs:
-    dev:
-      description: 'If the build is a dev build'
-      required: false
-      default: false
-    release:
-      description: 'If the build is a release build'
-      required: false
-      default: false
-    name:
-      description: 'Name to append to the wheel'
-      required: false
-     
+  dev:
+    description: If the build is a dev build
+    required: false
+    default: false
+  release:
+    description: If the build is a release build
+    required: false
+    default: false
+  name:
+    description: Name to append to the wheel
+    required: false
+
 outputs:
-    whlname:
-      description: 'wheel filename'
-      value: ${{ steps.build.outputs.whlname }}
-    tarname:
-      description: 'tar.gz filename'
-      value: ${{ steps.build.outputs.tarname }}
+  whlname:
+    description: wheel filename
+    value: ${{ steps.build.outputs.whlname }}
+  tarname:
+    description: tar.gz filename
+    value: ${{ steps.build.outputs.tarname }}
 
 # can we just pass in build args instead of updating the variables in version.py?
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: build
       id: build
       shell: bash
-      run:  |
-            name="${{ inputs.name }}"
-            ver_file=$(find . -type f -name "version.py")
-            if ${{ inputs.release }}; then
-              sed -i 's/is_release = False/is_release = True/g' ${ver_file}
-            elif ${{ inputs.dev }}; then
-              sed -i 's/is_dev = False/is_dev = True/g' ${ver_file}
-              sed -i 's/dev_number = None/dev_number = '"$name"'/g' ${ver_file}
-            fi
-            pip3 install wheel
-            status=$(make -B build || echo 'FAILED')
-            echo "=========== Build log ==========="
-            echo "$status"
-            echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
-            echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
-            echo "=========== Build status ==========="
-            if [[ "${status}" = "FAILED" ]]; then
-                echo "${{ github.event.repository.name }} build failed"
-                exitCode=1
-            else
-                echo "${{ github.event.repository.name }} build success"
-                exitCode=0
-            fi
-            echo "=========== Generated build ==========="
-            ls dist/
-
+      run: |-
+        name="${{ inputs.name }}"
+        ver_file=$(find . -type f -name "version.py")
+        if ${{ inputs.release }}; then
+          sed -i 's/is_release = False/is_release = True/g' ${ver_file}
+        elif ${{ inputs.dev }}; then
+          sed -i 's/is_dev = False/is_dev = True/g' ${ver_file}
+          sed -i 's/dev_number = None/dev_number = '"$name"'/g' ${ver_file}
+        fi
+        pip3 install wheel
+        status=$(make -B build || echo 'FAILED')
+        echo "=========== Build log ==========="
+        echo "$status"
+        echo "whlname=$(find dist -name '*.whl')" >> "$GITHUB_OUTPUT"
+        echo "tarname=$(find dist -name '*.tar.gz')" >> "$GITHUB_OUTPUT"
+        echo "=========== Build status ==========="
+        if [[ "${status}" = "FAILED" ]]; then
+            echo "${{ github.event.repository.name }} build failed"
+            exitCode=1
+        else
+            echo "${{ github.event.repository.name }} build success"
+            exitCode=0
+        fi
+        echo "=========== Generated build ==========="
+        ls dist/

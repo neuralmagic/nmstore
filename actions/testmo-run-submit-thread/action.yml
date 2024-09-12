@@ -1,27 +1,31 @@
+---
 name: submit results to testmo run
-description: 'asynchronously submit step results to neuralmagic testmo run'
+description: asynchronously submit step results to neuralmagic testmo run
+
 inputs:
   testmo_url:
-    description: 'testmo URL'
+    description: testmo URL
     required: true
   testmo_token:
-    description: 'testmo token'
+    description: testmo token
     required: true
   testmo_run_id:
-    description: 'testmo run id'
+    description: testmo run id
     required: true
   results:
-    description: "directory of JUnit '*.xml' formatted result files"
+    description: directory of JUnit '*.xml' formatted result files
     required: true
   step_status:
-    description: 'status of reported step'
+    description: status of reported step
     required: true
+
 outputs:
   status:
-    description: "status of updating testmo. if there was no update, then 'success' is returned."
+    description: status of updating testmo. if there was no update, then 'success' is returned.
     value: ${{ steps.submit_thread.outputs.status }}
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - id: submit_thread
       run: |

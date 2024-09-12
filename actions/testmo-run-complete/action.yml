@@ -1,17 +1,20 @@
+---
 name: complete testmo run
-description: 'complete neuralmagic testmo run'
+description: complete neuralmagic testmo run
+
 inputs:
   testmo_url:
-    description: 'testmo URL'
+    description: testmo URL
     required: true
   testmo_token:
-    description: 'testmo token'
+    description: testmo token
     required: true
   testmo_run_id:
-    description: 'testmo run id'
+    description: testmo run id
     required: true
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - run: |
         echo "completing TESTMO run ..."

@@ -1,25 +1,29 @@
+---
 name: upload whl
-description: 'upload specified whl to pypi server'
+description: upload specified whl to pypi server
+
 inputs:
   server:
-    description: 'pypi server ip'
+    description: pypi server ip
     required: true
   port:
-    description: 'port to use for pypi server, e.g. 8080'
+    description: port to use for pypi server, e.g. 8080
     required: true
   username:
-    description: 'username associated with upload'
+    description: username associated with upload
     required: true
   password:
-    description: 'password associated with username'
+    description: password associated with username
     required: true
   whl:
-    description: 'filepath of whl to put pushed'
+    description: filepath of whl to put pushed
     required: true
+
 outputs:
   status:
-    description: 'return status from upload'
+    description: return status from upload
     value: ${{ steps.upload.outputs.status }}
+
 runs:
   using: composite
   steps:
