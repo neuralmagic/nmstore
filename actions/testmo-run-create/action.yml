@@ -10,6 +10,9 @@ inputs:
   source:
     description: "source for testmo, e.g. 'build-test'"
     required: true
+  project_id:
+    description: "testmo project id"
+    required: false
   run_name:
     description: 'run name'
     required: false
@@ -52,6 +55,9 @@ runs:
         fi
         echo "test run name: ${TESTMO_RUN_NAME}"
         ## create testmo run
+        if [[ ! -z "${{ inputs.project_id }}" ]]; then
+            PROJECT_ID=${{ inputs.project_id }}
+        fi
         TESTMO_ID=$(npx testmo automation:run:create \
           --instance "${TESTMO_URL}" \
           --project-id "${PROJECT_ID}" \
