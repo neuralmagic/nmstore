@@ -55,6 +55,12 @@ runs:
             cd $(dirname ${makefile_path})
             make -B build || status=$?
             ls dist/
+            echo "
+            <testsuites>
+                <testsuite errors=\"$status\" failures=\"$status\" name=\"build\" skipped=\"0\" tests=\"1\">
+                    <testcase classname=\"build\"/>
+                </testsuite>
+            </testsuites>" > build-results/result.xml
             echo "=========== Build log ==========="
             echo "$status"
             echo "whlname=$(find dist -name '*.whl' -exec basename {} \;)" >> "$GITHUB_OUTPUT"

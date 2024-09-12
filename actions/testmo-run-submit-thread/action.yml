@@ -40,6 +40,12 @@ runs:
         ## submit results?
         SUCCESS=0
         if [ ${REPORT} -eq 1 ]; then
+          # red x
+          check='echo -e "\xE2\x9D\x8C"'
+          if [ ${{ inputs.step_status }} -eq 0 ]; then
+            # green check
+            check='echo -e "\xE2\x9C\x85"'
+          fi
           echo "submitting results to TESTMO run ..."
           ## not checking testmo_url and token as this should be
           ## called between "create" and "complete"
@@ -47,7 +53,7 @@ runs:
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
-            -- ./.github/scripts/step-status ${{ inputs.step_status }}
+            -- ${check}
             SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
