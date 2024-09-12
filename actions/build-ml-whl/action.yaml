@@ -54,7 +54,7 @@ runs:
             makefile_path=$(find . -type f -name "Makefile")
             cd $(dirname ${makefile_path})
             make -B build || status=$?
-            ls dist/
+            ls dist/; mkdir build-results
             echo "
             <testsuites>
                 <testsuite errors=\"$status\" failures=\"$status\" name=\"build\" skipped=\"0\" tests=\"1\">

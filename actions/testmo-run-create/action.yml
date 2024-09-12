@@ -46,6 +46,9 @@ runs:
           echo "The TESTMO_TOKEN secret is not defined for this repository"
           exit 1
         fi
+        if [[ ! -z "${{ inputs.project_id }}" ]]; then
+          PROJECT_ID=${{ inputs.project_id }}
+        fi
         ## construct name
         TESTMO_RUN_NAME="${{ inputs.run_name }}"
         if [[ -z "${{ inputs.run_name }}" ]]; then
@@ -55,9 +58,6 @@ runs:
         fi
         echo "test run name: ${TESTMO_RUN_NAME}"
         ## create testmo run
-        if [[ ! -z "${{ inputs.project_id }}" ]]; then
-            PROJECT_ID=${{ inputs.project_id }}
-        fi
         TESTMO_ID=$(npx testmo automation:run:create \
           --instance "${TESTMO_URL}" \
           --project-id "${PROJECT_ID}" \
