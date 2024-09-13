@@ -12,7 +12,7 @@ inputs:
     required: true
   project_id:
     description: "testmo project id"
-    required: false
+    required: true
   run_name:
     description: 'run name'
     required: false
@@ -46,9 +46,7 @@ runs:
           echo "The TESTMO_TOKEN secret is not defined for this repository"
           exit 1
         fi
-        if [[ ! -z "${{ inputs.project_id }}" ]]; then
-          PROJECT_ID=${{ inputs.project_id }}
-        fi
+        ROJECT_ID=${{ inputs.project_id }}
         ## construct name
         TESTMO_RUN_NAME="${{ inputs.run_name }}"
         if [[ -z "${{ inputs.run_name }}" ]]; then
