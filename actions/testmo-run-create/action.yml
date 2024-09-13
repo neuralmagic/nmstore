@@ -46,7 +46,6 @@ runs:
           echo "The TESTMO_TOKEN secret is not defined for this repository"
           exit 1
         fi
-        ROJECT_ID=${{ inputs.project_id }}
         ## construct name
         TESTMO_RUN_NAME="${{ inputs.run_name }}"
         if [[ -z "${{ inputs.run_name }}" ]]; then
@@ -66,4 +65,5 @@ runs:
       env:
         TESTMO_URL: ${{ inputs.testmo_url }}
         TESTMO_TOKEN: ${{ inputs.testmo_token }}
+        PROJECT_ID: ${{ inputs.project_id }}
       shell: bash

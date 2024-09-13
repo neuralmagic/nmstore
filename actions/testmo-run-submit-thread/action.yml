@@ -55,7 +55,7 @@ runs:
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
             -- ${check_script} ${{ inputs.step_status }} || SUCCESS=$?
-#            -- ${CHECK}
+          # -- ${CHECK}
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
