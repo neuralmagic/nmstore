@@ -1,7 +1,7 @@
 name: verify python
 description: 'verify env python version if matching the expected version'
 inputs:
-  python_version:
+  python-version:
     description: "version of python to verify, e.g. 3.10"
     required: true
 outputs:
@@ -14,11 +14,11 @@ runs:
     - id: env_python
       run: |
         VERSION=$(python --version | cut -d' ' -f2)
-        if [[ "${VERSION}" =~ ^${{ inputs.python_version }} ]]; then
-            echo "verified python_version=${VERSION}, matching expected ${{ inputs.python_version }}"
+        if [[ "${VERSION}" =~ ^${{ inputs.python-version }} ]]; then
+            echo "verified python-version=${VERSION}, matching expected ${{ inputs.python-version }}"
             exit 0
         else
-            echo "FAILED: python_version=${VERSION}, not matching expected ${{ inputs.python_version }}"
+            echo "FAILED: python-version=${VERSION}, not matching expected ${{ inputs.python-version }}"
             exit 1
         fi
       shell: bash
