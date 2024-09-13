@@ -23,7 +23,7 @@ runs:
   using: composite
   steps:
   - run: |
-      if [ ${{ inputs.whl_status }} -eq 0 ]; then
+      if [ ${{ inputs.test_status }} -eq 0 ]; then
           # green check
           TEST_EMOJI=$(echo -e "\xE2\x9C\x85")
       else
