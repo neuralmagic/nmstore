@@ -49,11 +49,13 @@ runs:
           echo "submitting results to TESTMO run ..."
           ## not checking testmo_url and token as this should be
           ## called between "create" and "complete"
+          check_script=`find . -type f -name 'step-status'`
           npx testmo automation:run:submit-thread \
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
-            -- ${CHECK}
+            -- ${check_script} ${{ inputs.step_status }}
+#            -- ${CHECK}
             SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
