@@ -53,6 +53,7 @@ runs:
             echo '{}' > thread_resources.json
             thread_resources=thread_resources.json
           fi
+          check_script=`find . -type f -name 'step-status'`
           npx testmo automation:run:submit-thread \
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
@@ -60,6 +61,7 @@ runs:
             --thread-resources ${thread_resources} \
             -- ./.github/scripts/step-status ${{ inputs.step_status }}        
             SUCCESS=$?
+            -- ${check_script} ${{ inputs.step_status }} || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
