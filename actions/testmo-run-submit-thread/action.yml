@@ -25,8 +25,8 @@ runs:
   steps:
     - id: submit_thread
       run: |
-        ls -al
-        ## if results is non-existent or there aren't results, then nothing to submit ...
+        # verify there are result files to be submitted
+        ls -Al
         REPORT=1
         RESULTS=
         if [[ ! -d ${{ inputs.results }} ]]; then
@@ -37,18 +37,31 @@ runs:
         if [[ -z "${RESULTS}" ]]; then
           REPORT=0
         fi
-        ## submit results?
+
+        step_status() {
+          # echo "green encased checkmark" if "${1} == 0"
+          # echo "red X"                   if "${1} != 0"
+
+          if [ "$1" -eq 0 ]; then
+            # green check
+            echo -e "\xE2\x9C\x85"
+          else
+            # red x
+            echo -e "\xE2\x9D\x8C"
+          fi
+        }
+
+        # submit results
         SUCCESS=0
         if [ ${REPORT} -eq 1 ]; then
           echo "submitting results to TESTMO run ..."
-          ## not checking testmo_url and token as this should be
-          ## called between "create" and "complete"
-          check_script=`find . -type f -name 'step-status'`
+          # not checking testmo_url and token as this should be
+          # called between "create" and "complete"
           npx testmo automation:run:submit-thread \
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
-            -- ${check_script} ${{ inputs.step_status }} || SUCCESS=$?
+            -- step-status "${{ inputs.step_status }}" || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
