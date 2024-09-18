@@ -1,9 +1,8 @@
 ---
-name: Development Branch Workflow
+name: hygiene checks
 
 on:
-  push:
-    branches-ignore: [main]
+  push: null
 
 jobs:
   quality:
