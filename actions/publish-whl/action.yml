@@ -1,19 +1,23 @@
+---
 name: publish whl to public pypi
-description: 'upload specified whl to public pypi'
+description: upload specified whl to public pypi
+
 inputs:
   username:
-    description: 'username associated with upload'
+    description: username associated with upload
     required: true
   password:
-    description: 'password associated with username'
+    description: password associated with username
     required: true
   whl:
-    description: 'filepath of whl to put pushed'
+    description: filepath of whl to put pushed
     required: true
+
 outputs:
   status:
-    description: 'return status from upload'
+    description: return status from upload
     value: ${{ steps.upload.outputs.status }}
+
 runs:
   using: composite
   steps:

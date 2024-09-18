@@ -1,12 +1,15 @@
+---
 name: upload asset to GCP
-description: 'upload specified asset to specified bucket target'
+description: upload specified asset to specified bucket target
+
 inputs:
   bucket_target:
-    description: 'bucket target, result will be object at "bucket_target/asset"'
+    description: bucket target, result will be object at "bucket_target/asset"
     required: true
   asset:
-    description: 'REPO relative path for asset to be uploaded'
+    description: REPO relative path for asset to be uploaded
     required: true
+
 runs:
   using: composite
   steps:

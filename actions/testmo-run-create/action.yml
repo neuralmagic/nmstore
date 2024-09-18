@@ -1,27 +1,31 @@
+---
 name: create testmo run
-description: 'create neuralmagic testmo run and return its ID'
+description: create neuralmagic testmo run and return its ID
+
 inputs:
   testmo_url:
-    description: 'testmo URL'
+    description: testmo URL
     required: true
   testmo_token:
-    description: 'testmo token'
+    description: testmo token
     required: true
   source:
-    description: "source for testmo, e.g. 'build-test'"
+    description: source for testmo, e.g. 'build-test'
     required: true
   project_id:
-    description: "testmo project id"
+    description: testmo project id
     required: true
   run_name:
-    description: 'run name'
+    description: run name
     required: false
+
 outputs:
   id:
-    description: 'testmo run id'
+    description: testmo run id
     value: ${{ steps.testmo_id.outputs.id }}
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: create run
       id: testmo_id
