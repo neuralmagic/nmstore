@@ -3,8 +3,7 @@ name: Main Branch Workflow
 
 on:
   push:
-    branches:
-        - main
+    branches: [main]
 
 jobs:
   quality:
