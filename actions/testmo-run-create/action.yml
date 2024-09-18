@@ -13,11 +13,12 @@ inputs:
     description: source for testmo, e.g. 'build-test'
     required: true
   project_id:
-    description: "testmo project id"
+    description: testmo project id
     required: true
   run_name:
-    description: 'run name'
+    description: run name
     required: false
+
 outputs:
   id:
     description: testmo run id
