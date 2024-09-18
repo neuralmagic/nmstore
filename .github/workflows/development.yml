@@ -2,8 +2,9 @@
 name: Development Branch Workflow
 
 on:
-  pull_request:
-    branches: ['**']
+  push:
+     branches-ignore:
+        - main
 
 jobs:
   quality:
