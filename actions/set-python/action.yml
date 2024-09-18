@@ -1,6 +1,5 @@
----
-name: Set Python
-description: Sets the Python version and creates a virtual environment
+name: Set Python With Pyenv
+description: Sets the Python version with pyenv and creates a virtual environment
 
 inputs:
   python:
