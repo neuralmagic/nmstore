@@ -19,15 +19,17 @@ runs:
   using: composite
   steps:
     - id: getpypi
-      run: |-
+      run: |
+        set -x
         URL="https://pypi.org/project/${{ inputs.package_name }}/#history"
         curl --header 'Accept: application/vnd.pypi.simple.v1+json' ${URL} > history.log
-        cat history.log
         all=`cat history.log | grep 'release__card' | sed 's/.*project\///g' | cut -d'/' -f2`
-        latest="${{ inputs.num_of_latest }}"
+        latest=${{ inputs.num_of_latest }}
         if [[ -z "${{ inputs.num_of_latest }}" ]]; then
             latest=1 
         fi
+        echo "all=${all}"
         versions=`echo "${all}" | head -${latest}`
         echo "versions=${versions}" >> "$GITHUB_OUTPUT"
+        set +x
       shell: bash
