@@ -1,0 +1,32 @@
+---
+name: get package latest versions on PyPi
+description: get package latest versions on PyPi
+
+inputs:
+  package_name:
+    description: name of the package
+    required: true
+  num_of_latest:
+    description: number of latest versions
+    default: 1
+
+outputs:
+  versions:
+    description: return latest versions of package on PyPi
+    value: ${{ steps.getpypi.outputs.versions }}
+
+runs:
+  using: composite
+  steps:
+    - id: getpypi
+      run: |-
+        URL="https://pypi.org/project/${{ inputs.package_name }}/#history"
+        curl --header 'Accept: application/vnd.pypi.simple.v1+json' ${URL} > history.log
+        all=`cat history.log | grep release__card | sed 's/.*project\///g' | cut -d'/' -f2`
+        latest="${{ inputs.num_of_latest }}"
+        if [[ -z "${{ inputs.num_of_latest }}" ]]; then
+            latest=1 
+        fi
+        versions=`echo "${all}" | head -${latest}`
+        echo "versions=${versions}" >> "$GITHUB_OUTPUT"
+      shell: bash
