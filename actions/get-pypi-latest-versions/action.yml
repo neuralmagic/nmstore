@@ -12,7 +12,7 @@ inputs:
 
 outputs:
   versions:
-    description: return latest versions of package on PyPi
+    description: return latest versions (separated by ;) of package on PyPi
     value: ${{ steps.getpypi.outputs.versions }}
 
 runs:
@@ -29,7 +29,7 @@ runs:
         if [[ -z "${{ inputs.num_of_latest }}" ]]; then
             latest=1 
         fi
-        versions=`echo "${all}" | head -${latest}`
+        versions=`echo "${all}" | head -${latest} | tr '\n' ';'`
         echo "versions=${versions}"
         echo "versions=${versions}" >> "$GITHUB_OUTPUT"
         if [ -z "${versions}" ]; then
