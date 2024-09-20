@@ -7,11 +7,6 @@ inputs:
     description: version of python to verify, e.g. 3.10
     required: true
 
-outputs:
-  version:
-    description: result from 'python --version'
-    value: ${{ steps.env_python.outputs.version }}
-
 runs:
   using: composite
   steps:
