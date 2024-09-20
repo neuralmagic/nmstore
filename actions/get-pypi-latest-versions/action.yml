@@ -30,7 +30,6 @@ runs:
             latest=1 
         fi
         versions=`echo "${all}" | head -${latest} | tr '\n' ';'`
-        echo "versions=${versions}"
         echo "versions=${versions}" >> "$GITHUB_OUTPUT"
         if [ -z "${versions}" ]; then
             exit 1
