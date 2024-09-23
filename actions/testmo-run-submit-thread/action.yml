@@ -55,10 +55,10 @@ runs:
           fi
           check_script=`find . -type f -name 'step-status'`
           npx testmo automation:run:submit-thread \
-            --instance ${TESTMO_URL} \
-            --run-id ${TESTMO_RUN_ID} \
-            --results ${RESULTS} \
-            --thread-resources ${thread_resources} \
+            --instance "${TESTMO_URL}" \
+            --run-id "${TESTMO_RUN_ID}" \
+            --results "${RESULTS}" \
+            --thread-resources "${thread_resources}" \
             -- ${check_script} ${{ inputs.step_status }} || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
