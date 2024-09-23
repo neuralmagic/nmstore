@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 
 # Script to create a TestMo "resources" file containing a specified
 # set of fields.  The fields are passed in as JSON with the key being the name
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         "-d",
         "--destination",
         help="filepath relative to REPO root to generate the file,"
-             " default '.buildkite/test-pipeline.yaml'.",
-        default='.buildkite/test-pipeline.yaml',
+             " default 'testmo_resources.json'.",
+        default='testmo_resources.json',
         type=str)
 
     args = args_parser.parse_args()
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             "type": "string",
             "value": fields[field]
         }
-        testmo_command = "npx testmo automation:resources:add_field" + \
+        testmo_command = "npx testmo automation:resources:add-field" + \
                          " ".join([f"--{k} {v}"
                                    for k, v in testmo_args.items()])
 
@@ -52,5 +52,6 @@ if __name__ == "__main__":
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
-            cwd=pathlib.Path.cwd()
+            cwd=pathlib.Path.cwd(),
+            shell=True
         )
