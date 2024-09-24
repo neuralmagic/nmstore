@@ -27,6 +27,10 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: add scripts folder to PATH
+      run: echo "${{ github.action_path }}/../../scripts" >> $GITHUB_PATH
+      shell: bash
+
     - id: submit_thread
       run: |
         # verify there are result files to be submitted
@@ -42,19 +46,6 @@ runs:
           REPORT=0
         fi
 
-        step_status() {
-          # echo "green encased checkmark" if "${1} == 0"
-          # echo "red X"                   if "${1} != 0"
-
-          if [ "$1" -eq 0 ]; then
-            # green check
-            echo -e "\xE2\x9C\x85"
-          else
-            # red x
-            echo -e "\xE2\x9D\x8C"
-          fi
-        }
-
         # submit results
         SUCCESS=0
         if [ ${REPORT} -eq 1 ]; then
@@ -65,7 +56,7 @@ runs:
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
-            -- step_status "${{ inputs.step_status }}" || SUCCESS=$?
+            -- step-status.sh "${{ inputs.step_status }}" || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
