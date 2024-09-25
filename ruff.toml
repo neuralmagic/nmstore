@@ -14,6 +14,7 @@ ignore = [
     "ISC001",
     "TCH002",
     "PLW1514", # allow Path.open without encoding
+    "S603"# https://github.com/astral-sh/ruff/issues/4045
 ]
 select = [
     # Rules reference: https://docs.astral.sh/ruff/rules/
