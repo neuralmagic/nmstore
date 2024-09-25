@@ -42,16 +42,13 @@ if __name__ == "__main__":
             "type": "string",
             "value": fields[field]
         }
-        testmo_command = "npx testmo automation:resources:add-field " + \
-                         " ".join([f"--{k} {v}"
-                                   for k, v in testmo_args.items()])
+        testmo_command = (["npx", "testmo", "automation:resources:add-field"] +
+                          [f"--{k} {v}" for k, v in testmo_args.items()])
 
         # run the command and raise any exceptions
         result = subprocess.run(
             testmo_command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             check=True,
-            cwd=pathlib.Path.cwd(),
-            shell=True
+            cwd=pathlib.Path.cwd()
         )
