@@ -36,18 +36,17 @@ if __name__ == "__main__":
     fields = json.loads(args.resources_json)
 
     for field in fields:
-        testmo_args = {
-            "resources": args.destination,
-            "name": field,
-            "type": "string",
-            "value": fields[field]
-        }
-        testmo_command = (["npx", "testmo", "automation:resources:add-field"] +
-                          [f"--{k} {v}" for k, v in testmo_args.items()])
+        testmo_args = [
+            "--resources", args.destination,
+            "--name", field,
+            "--type", "string",
+            "--value", fields[field]
+        ]
+        testmo_command = ["npx", "testmo", "automation:resources:add-field"]
 
         # run the command and raise any exceptions
         result = subprocess.run(
-            testmo_command,
+            testmo_command + testmo_args,
             capture_output=True,
             check=True,
             cwd=pathlib.Path.cwd()
