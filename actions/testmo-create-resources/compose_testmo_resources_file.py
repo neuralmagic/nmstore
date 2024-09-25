@@ -29,7 +29,7 @@ if __name__ == "__main__":
         "--destination",
         help="filepath relative to REPO root to generate the file,"
              " default 'testmo_resources.json'.",
-        default='testmo_resources.json',
+        default="testmo_resources.json",
         type=str)
 
     args = args_parser.parse_args()
@@ -49,5 +49,6 @@ if __name__ == "__main__":
             testmo_command + testmo_args,
             capture_output=True,
             check=True,
-            cwd=pathlib.Path.cwd()
+            cwd=pathlib.Path.cwd(),
+            shell=True
         )
