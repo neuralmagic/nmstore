@@ -45,7 +45,7 @@ if __name__ == "__main__":
         testmo_command = ["npx", "testmo", "automation:resources:add-field"]
 
         # run the command and raise any exceptions
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S602
             testmo_command + testmo_args,
             capture_output=True,
             check=True,
