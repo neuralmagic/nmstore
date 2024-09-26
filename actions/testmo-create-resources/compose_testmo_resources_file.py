@@ -49,5 +49,6 @@ if __name__ == "__main__":
             testmo_command + testmo_args,
             capture_output=True,
             check=True,
-            cwd=pathlib.Path.cwd()
+            cwd=pathlib.Path.cwd(),
+            shell=True
         )
