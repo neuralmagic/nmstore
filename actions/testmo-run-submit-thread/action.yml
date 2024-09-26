@@ -16,8 +16,8 @@ inputs:
     description: directory of JUnit '*.xml' formatted result files
     required: true
   thread_resources:
-    description: "JSON file with TestMo resources to attach to this thread"
-    default: ""
+    description: JSON file with TestMo resources to attach to this thread
+    default: ''
     required: false
   step_status:
     description: status of reported step

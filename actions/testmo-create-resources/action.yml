@@ -1,15 +1,19 @@
+---
 name: create testmo resources
-description: 'create a TestMo resource .json file'
+description: create a TestMo resource .json file
+
 inputs:
   resources_file:
-    description: "file name where the resources will be stored"
+    description: file name where the resources will be stored
     required: true
   resources_json:
-    description: "stringified JSON associative array of resource fields to add.  Each field's key is the name of the field, and it's value is the value of the field."
-    default: ""
+    description: stringified JSON associative array of resource fields to add.  Each field's
+      key is the name of the field, and it's value is the value of the field.
+    default: ''
     required: false
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: add actions path to PATH
       shell: bash
