@@ -27,9 +27,7 @@ if __name__ == "__main__":
     args_parser.add_argument(
         "-d",
         "--destination",
-        help="filepath relative to REPO root to generate the file,"
-             " default 'testmo_resources.json'.",
-        default="testmo_resources.json",
+        help="absolute path for where to generate the file,",
         type=str)
 
     print(f"cwd: {pathlib.Path.cwd()}")  # noqa: T201
@@ -52,3 +50,6 @@ if __name__ == "__main__":
             cwd=pathlib.Path.cwd(),
             shell=True
         )
+
+    print(f"destination: {args.destination}")  # noqa: T201
+    print(f"exists: {pathlib.Path(args.destination).exists()}")  # noqa: T201
