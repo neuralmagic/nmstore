@@ -32,7 +32,7 @@ if __name__ == "__main__":
         default="testmo_resources.json",
         type=str)
 
-    print(f"cwd: {pathlib.Path.cwd()}")
+    print(f"cwd: {pathlib.Path.cwd()}")  # noqa: T201
     args = args_parser.parse_args()
     fields = json.loads(args.resources_json)
 
