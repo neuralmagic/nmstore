@@ -22,10 +22,12 @@ runs:
     - name: compose TESTMO resources file
       run: |
         echo "composing TESTMO resources file ${{ inputs.resources_file }} ..."
-        echo "CWD: $(pwd)"
+        echo "shell CWD: $(pwd)"
+        ls -A
         compose_testmo_resources_file.py \
           --resources_json '${{ inputs.resources_json }}' \
           --destination "${{ inputs.resources_file }}"
+        ls -A
         echo "resource file ${{ inputs.resources_json }} contents:"
         cat "${{ inputs.resources_file }}"
       shell: bash

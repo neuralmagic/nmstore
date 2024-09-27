@@ -11,6 +11,7 @@
 import argparse
 import json
 import pathlib
+import shlex
 import subprocess
 
 if __name__ == "__main__":
@@ -42,10 +43,12 @@ if __name__ == "__main__":
             "--value", fields[field]
         ]
         testmo_command = ["npx", "testmo", "automation:resources:add-field"]
+        full_command = testmo_command + testmo_args
+        print(f"running command: {shlex.join(full_command)}")  # noqa: T201
 
         # run the command and raise any exceptions
         subprocess.run(  # noqa: S602
-            testmo_command + testmo_args,
+            full_command,
             check=True,
             cwd=pathlib.Path.cwd(),
             shell=True
