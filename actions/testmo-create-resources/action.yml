@@ -3,6 +3,9 @@ name: create testmo resources
 description: create a TestMo resource .json file
 
 inputs:
+  testmo_token:
+    description: testmo token
+    required: true
   resources_file:
     description: file name where the resources will be stored
     required: true
@@ -30,4 +33,6 @@ runs:
         ls -A
         echo "resource file ${{ inputs.resources_json }} contents:"
         cat "${{ inputs.resources_file }}"
+      env:
+        TESTMO_TOKEN: ${{ inputs.testmo_token }}
       shell: bash
