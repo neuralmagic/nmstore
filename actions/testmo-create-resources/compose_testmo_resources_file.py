@@ -37,10 +37,10 @@ if __name__ == "__main__":
 
     for field in fields:
         testmo_args = [
-            "--resources", f'"{args.destination}"',
-            "--name", f'"{field}"',
+            "--resources", f"{args.destination}",
+            "--name", f"{field}",
             "--type", "string",
-            "--value", f'"{fields[field]}"'
+            "--value", f"{fields[field]}"
         ]
         testmo_command = ["npx", "testmo", "automation:resources:add-field"]
         full_command = testmo_command + testmo_args
