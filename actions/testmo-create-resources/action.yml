@@ -25,4 +25,6 @@ runs:
         compose_testmo_resources_file.py \
           --resources_json '${{ inputs.resources_json }}' \
           --destination "${{ inputs.resources_file }}"
+        echo "resource file ${{ inputs.resources_json }} contents:\n"
+        cat "${{ inputs.resources_file }}\n"
       shell: bash

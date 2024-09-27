@@ -32,6 +32,7 @@ if __name__ == "__main__":
         default="testmo_resources.json",
         type=str)
 
+    print(f"cwd: {pathlib.Path.cwd()}")
     args = args_parser.parse_args()
     fields = json.loads(args.resources_json)
 
@@ -45,9 +46,8 @@ if __name__ == "__main__":
         testmo_command = ["npx", "testmo", "automation:resources:add-field"]
 
         # run the command and raise any exceptions
-        result = subprocess.run(  # noqa: S602
+        subprocess.run(  # noqa: S602
             testmo_command + testmo_args,
-            capture_output=True,
             check=True,
             cwd=pathlib.Path.cwd(),
             shell=True
