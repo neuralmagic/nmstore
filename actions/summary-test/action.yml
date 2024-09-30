@@ -21,6 +21,9 @@ inputs:
   test_status:
     description: status from test step
     required: true
+  extra:
+    description: extra info to add in the summary
+    required: false
 
 runs:
   using: composite
@@ -43,6 +46,9 @@ runs:
         echo "| python: | ${{ inputs.python }} |" >> $GITHUB_STEP_SUMMARY
         echo "| whl: | ${{ inputs.whl }} |" >> $GITHUB_STEP_SUMMARY
         echo "| test: | ${TEST_EMOJI} |" >> $GITHUB_STEP_SUMMARY
+        if [ ! -z "${{ inputs.extra }}" ]; then
+            echo "| extra: | ${{ inputs.extra }} |" >> $GITHUB_STEP_SUMMARY
+        fi
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "#### TestMo URL: ${{ inputs.testmo_run_url }}" >> $GITHUB_STEP_SUMMARY
       shell: bash
