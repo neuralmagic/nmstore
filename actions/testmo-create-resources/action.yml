@@ -28,7 +28,7 @@ runs:
         compose_testmo_resources_file.py \
           --resources_json "$RESOURCES_JSON" \
           --destination "$RESOURCES_FILE"
-        
+
         echo "resources file contents:"
         cat "$RESOURCES_FILE"
       shell: bash
