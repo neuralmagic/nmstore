@@ -3,9 +3,6 @@ name: create testmo resources
 description: create a Testmo resource .json file
 
 inputs:
-  testmo_token:
-    description: testmo token
-    required: true
   resources_file:
     description: file name where the resources will be stored
     required: true
@@ -24,7 +21,7 @@ runs:
 
     - name: compose Testmo resources file
       run: |
-        echo "composing Testmo resources file ${{ inputs.resources_file }} ..."
+        echo "composing Testmo resources file '$RESOURCES_FILE'"
         compose_testmo_resources_file.py \
           --resources_json "$RESOURCES_JSON" \
           --destination "$RESOURCES_FILE"
