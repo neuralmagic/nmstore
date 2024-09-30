@@ -1,32 +1,35 @@
+---
 name: build summary
-description: 'creates a GHA run summary'
+description: creates a GHA run summary
+
 inputs:
   label:
-    description: 'GHA runner label'
+    description: GHA runner label
     required: true
   gitref:
-    description: 'git commit hash or branch name'
+    description: git commit hash or branch name
     required: true
   whl_status:
-    description: 'status from build step'
+    description: status from build step
     required: true
+
 runs:
   using: composite
   steps:
-  - run: |
-      if [ ${{ inputs.whl_status }} -eq 0 ]; then
-          # green check
-          WHL_EMOJI=$(echo -e "\xE2\x9C\x85")
-      else
-          # red x
-          WHL_EMOJI=$(echo -e "\xE2\x9D\x8C")
-      fi
-      echo ""
-      echo "| Parameter | |" >> $GITHUB_STEP_SUMMARY
-      echo "|---|---|" >> $GITHUB_STEP_SUMMARY
-      echo "| label: | \`${{ inputs.label }}\` |" >> $GITHUB_STEP_SUMMARY
-      echo "| git sha: | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
-      echo "| github actor: | '${{ github.actor }}' |" >> $GITHUB_STEP_SUMMARY
-      echo "| gitref: | '${{ inputs.gitref }}' |" >> $GITHUB_STEP_SUMMARY
-      echo "| whl: | ${WHL_EMOJI} |" >> $GITHUB_STEP_SUMMARY
-    shell: bash
+    - run: |
+        if [ ${{ inputs.whl_status }} -eq 0 ]; then
+            # green check
+            WHL_EMOJI=$(echo -e "\xE2\x9C\x85")
+        else
+            # red x
+            WHL_EMOJI=$(echo -e "\xE2\x9D\x8C")
+        fi
+        echo ""
+        echo "| Parameter | |" >> $GITHUB_STEP_SUMMARY
+        echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+        echo "| label: | \`${{ inputs.label }}\` |" >> $GITHUB_STEP_SUMMARY
+        echo "| git sha: | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+        echo "| github actor: | '${{ github.actor }}' |" >> $GITHUB_STEP_SUMMARY
+        echo "| gitref: | '${{ inputs.gitref }}' |" >> $GITHUB_STEP_SUMMARY
+        echo "| whl: | ${WHL_EMOJI} |" >> $GITHUB_STEP_SUMMARY
+      shell: bash

@@ -53,7 +53,7 @@ runs:
         if [[ -z "${RESULTS}" ]]; then
           REPORT=0
         fi
-        
+
         # submit results
         SUCCESS=0
         if [[ ${REPORT} -eq 1 ]]; then

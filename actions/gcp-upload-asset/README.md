@@ -4,7 +4,6 @@ Used to upload build asset to GCP. Requires that the assets are available locall
 
 **Requires "runner" to already be authenticated.**
 
-
 ## Usage
 
 ### Example
