@@ -10,7 +10,6 @@
 
 import argparse
 import json
-import pathlib
 import subprocess
 
 if __name__ == "__main__":
@@ -27,31 +26,21 @@ if __name__ == "__main__":
     args_parser.add_argument(
         "-d",
         "--destination",
-        help="filepath relative to REPO root to generate the file,"
-             " default 'testmo_resources.json'.",
-        default='testmo_resources.json',
+        help="absolute path for where to generate the file,",
         type=str)
 
     args = args_parser.parse_args()
     fields = json.loads(args.resources_json)
 
     for field in fields:
-        testmo_args = {
-            "resources": args.destination,
-            "name": field,
-            "type": "string",
-            "value": fields[field]
-        }
-        testmo_command = "npx testmo automation:resources:add-field " + \
-                         " ".join([f"--{k} {v}"
-                                   for k, v in testmo_args.items()])
+        testmo_args = [
+            "--resources", f"{args.destination}",
+            "--name", f"{field}",
+            "--type", "string",
+            "--value", f"{fields[field]}"
+        ]
+        testmo_command = ["npx", "testmo", "automation:resources:add-field"]
+        full_command = testmo_command + testmo_args
 
         # run the command and raise any exceptions
-        result = subprocess.run(
-            testmo_command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
-            cwd=pathlib.Path.cwd(),
-            shell=True
-        )
+        subprocess.run(full_command, check=True)

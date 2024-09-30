@@ -1,36 +1,48 @@
+---
 name: submit results to testmo run
-description: 'asynchronously submit step results to neuralmagic testmo run'
+description: asynchronously submit step results to neuralmagic testmo run
+
 inputs:
   testmo_url:
-    description: 'testmo URL'
+    description: testmo URL
     required: true
   testmo_token:
-    description: 'testmo token'
+    description: testmo token
     required: true
   testmo_run_id:
-    description: 'testmo run id'
+    description: testmo run id
     required: true
   results:
-    description: "directory of JUnit '*.xml' formatted result files"
+    description: directory of JUnit '*.xml' formatted result files
     required: true
   resources_file:
-    description: "JSON file with TestMo resources to attach to this thread"
+    description: JSON file with TestMo resources to attach to this thread
     default: ""
     required: false
+  thread_resources:
+    description: JSON file with TestMo resources to attach to this thread
+    default: ''
+    required: false
   step_status:
-    description: 'status of reported step'
+    description: status of reported step
     required: true
+
 outputs:
   status:
-    description: "status of updating testmo. if there was no update, then 'success' is returned."
+    description: status of updating testmo. if there was no update, then 'success' is returned.
     value: ${{ steps.submit_thread.outputs.status }}
+
 runs:
   using: composite
   steps:
+    - name: add scripts folder to PATH
+      run: echo "${{ github.action_path }}/../../scripts" >> $GITHUB_PATH
+      shell: bash
+
     - id: submit_thread
       run: |
-        ls -al
-        ## if results is non-existent or there aren't results, then nothing to submit ...
+        # verify there are result files to be submitted
+        ls -Al
         REPORT=1
         RESULTS=
         if [[ ! -d ${{ inputs.results }} ]]; then
@@ -41,25 +53,25 @@ runs:
         if [[ -z "${RESULTS}" ]]; then
           REPORT=0
         fi
-        ## submit results?
+        
+        # submit results
         SUCCESS=0
         if [[ ${REPORT} -eq 1 ]]; then
           echo "submitting results to TESTMO run ..."
           ## not checking testmo_url and token as this should be
           ## called between "create" and "complete"
-          if [[ -f "${{ inputs.resources_file }}" ]]; then
-            thread_resources=${{ inputs.resources_file }}
+          if [[ -f "${{ inputs.thread_resources }}" ]]; then
+            thread_resources=${{ inputs.thread_resources }}
           else
             echo '{}' > thread_resources.json
             thread_resources=thread_resources.json
           fi
-          check_script=`find . -type f -name 'step-status'`
           npx testmo automation:run:submit-thread \
             --instance "${TESTMO_URL}" \
             --run-id "${TESTMO_RUN_ID}" \
             --results "${RESULTS}" \
-            --thread-resources "${thread_resources}" \
-            -- ${check_script} ${{ inputs.step_status }} || SUCCESS=$?
+            --thread-resources ${thread_resources} \
+            -- step-status.sh "${{ inputs.step_status }}" || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
         exit ${SUCCESS}
