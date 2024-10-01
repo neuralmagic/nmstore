@@ -9,6 +9,10 @@ inputs:
   run_id:
     description: GHA run id of build
     required: true
+  dest_path:
+    description: 'path where the assets should be downloaded (default: ".")'
+    required: false
+    default: '.'
 
 outputs:
   asset:
@@ -20,5 +24,9 @@ runs:
   steps:
     - id: download
       run: |
-        gcloud storage cp ${{ inputs.bucket_source }}/${{ inputs.run_id }}/ . --recursive
+        gcloud storage cp "$BUCKET_SOURCE/$RUN_ID/" "$PATH" --recursive
       shell: bash
+      env:
+        BUCKET_SOURCE: ${{ inputs.bucket_source }}
+        RUN_ID: ${{ inputs.run_id }}
+        DEST_PATH: ${{ inputs.dest_path }}
