@@ -15,6 +15,10 @@ inputs:
   results:
     description: directory of JUnit '*.xml' formatted result files
     required: true
+  thread_resources:
+    description: JSON file with TestMo resources to attach to this thread
+    default: ''
+    required: false
   step_status:
     description: status of reported step
     required: true
@@ -48,14 +52,21 @@ runs:
 
         # submit results
         SUCCESS=0
-        if [ ${REPORT} -eq 1 ]; then
+        if [[ ${REPORT} -eq 1 ]]; then
           echo "submitting results to TESTMO run ..."
-          # not checking testmo_url and token as this should be
-          # called between "create" and "complete"
+          ## not checking testmo_url and token as this should be
+          ## called between "create" and "complete"
+          if [[ -f "${{ inputs.thread_resources }}" ]]; then
+            thread_resources=${{ inputs.thread_resources }}
+          else
+            echo '{}' > thread_resources.json
+            thread_resources=thread_resources.json
+          fi
           npx testmo automation:run:submit-thread \
             --instance ${TESTMO_URL} \
             --run-id ${TESTMO_RUN_ID} \
             --results ${RESULTS} \
+            --thread-resources ${thread_resources} \
             -- step-status.sh "${{ inputs.step_status }}" || SUCCESS=$?
         fi
         echo "status=${SUCCESS}" >> "$GITHUB_OUTPUT"
