@@ -14,19 +14,13 @@ inputs:
     required: true
   run_id:
     description: github run id
-    required: true
+    required: false
 
 runs:
   using: composite
   steps:
     - run: |
-        if [ ${{ inputs.whl_status }} -eq 0 ]; then
-            # green check
-            WHL_EMOJI=$(echo -e "\xE2\x9C\x85")
-        else
-            # red x
-            WHL_EMOJI=$(echo -e "\xE2\x9D\x8C")
-        fi
+        WHL_EMOJI=`${{ github.action_path }}/../../scripts/step-status.sh ${{ inputs.whl_status }}`
         echo ""
         echo "| Parameter | |" >> $GITHUB_STEP_SUMMARY
         echo "|---|---|" >> $GITHUB_STEP_SUMMARY
@@ -34,6 +28,8 @@ runs:
         echo "| git sha: | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
         echo "| github actor: | '${{ github.actor }}' |" >> $GITHUB_STEP_SUMMARY
         echo "| gitref: | '${{ inputs.gitref }}' |" >> $GITHUB_STEP_SUMMARY
-        echo "| run id: | ${{ inputs.run_id }} |" >> $GITHUB_STEP_SUMMARY
         echo "| whl: | ${WHL_EMOJI} |" >> $GITHUB_STEP_SUMMARY
+        if [ ! -z "${{ inputs.run_id }}" ]; then
+            echo "| run id: | ${{ inputs.run_id }} |" >> $GITHUB_STEP_SUMMARY
+        fi
       shell: bash

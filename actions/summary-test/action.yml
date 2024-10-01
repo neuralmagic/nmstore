@@ -29,13 +29,7 @@ runs:
   using: composite
   steps:
     - run: |
-        if [ ${{ inputs.test_status }} -eq 0 ]; then
-            # green check
-            TEST_EMOJI=$(echo -e "\xE2\x9C\x85")
-        else
-            # red x
-            TEST_EMOJI=$(echo -e "\xE2\x9D\x8C")
-        fi
+        TEST_EMOJI=`${{ github.action_path }}/../../scripts/step-status.sh ${{ inputs.whl_status }}`
         echo "| Parameter | |" >> $GITHUB_STEP_SUMMARY
         echo "|---|---|" >> $GITHUB_STEP_SUMMARY
         echo "| label: | \`${{ inputs.test_label }}\` |" >> $GITHUB_STEP_SUMMARY
