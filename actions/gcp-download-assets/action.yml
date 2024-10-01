@@ -19,7 +19,7 @@ runs:
   steps:
     - id: download
       run: |
-        gcloud storage cp "$BUCKET_SOURCE/$RUN_ID/" "$PATH" --recursive
+        gcloud storage cp "$BUCKET_SOURCE/$RUN_ID/" "$DEST_PATH" --recursive
       shell: bash
       env:
         BUCKET_SOURCE: ${{ inputs.bucket_source }}
