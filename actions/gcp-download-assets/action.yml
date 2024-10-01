@@ -12,7 +12,7 @@ inputs:
   dest_path:
     description: 'path where the assets should be downloaded (default: ".")'
     required: false
-    default: '.'
+    default: .
 
 runs:
   using: composite
