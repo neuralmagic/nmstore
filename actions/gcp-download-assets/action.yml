@@ -19,6 +19,9 @@ runs:
   steps:
     - id: download
       run: |
+        if [[ "$DEST_PATH" != "." && ! -e "$DEST_PATH" ]]; then
+          mkdir -p "$DEST_PATH"
+        fi
         gcloud storage cp "$BUCKET_SOURCE/$RUN_ID/" "$DEST_PATH" --recursive
       shell: bash
       env:
