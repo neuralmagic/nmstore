@@ -41,7 +41,7 @@ runs:
         if [[ ! -d "$RESULTS_FOLDER" ]]; then
           echo "Results folder '$RESULTS_FOLDER' does not exist in working directory:"
           ls -A
-          echo "::warning title=MISSING RESULTS FOLDER::Results folder does not exist in working directory"
+          echo "::warning title=$GITHUB_JOB - MISSING RESULTS FOLDER::Results folder does not exist in working directory"
           exit
         fi
 
@@ -50,7 +50,7 @@ runs:
         if [[ -z "$RESULTS" ]]; then
           echo "Results folder '$RESULTS_FOLDER' does not contain any XML result files:"
           ls -A "$RESULTS_FOLDER"
-          echo "::warning title=MISSING RESULT FILES::Results folder did not contain any XML result files"
+          echo "::warning title=$GITHUB_JOB - MISSING RESULT FILES::Results folder did not contain any XML result files"
           exit
         fi
 
