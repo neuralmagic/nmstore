@@ -51,6 +51,7 @@ runs:
           sed -i 's/dev_number = None/dev_number = '"$name"'/g' ${ver_file}
         else
             sed -i 's/build_type = "dev"/build_type = "nightly"/g' ${ver_file}
+            sed -i 's/is_release = True/is_release = False/g' ${ver_file}
         fi
         status=0
         makefile_path=$(find . -type f -name "Makefile")
