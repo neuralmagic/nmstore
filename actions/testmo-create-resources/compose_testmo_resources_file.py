@@ -13,7 +13,6 @@ import json
 import subprocess
 
 if __name__ == "__main__":
-
     # command line arguments
     args_parser = argparse.ArgumentParser()
 
@@ -21,23 +20,29 @@ if __name__ == "__main__":
         "-j",
         "--resources_json",
         help="string version of JSON identifying resource fields",
-        type=str)
+        type=str,
+    )
 
     args_parser.add_argument(
         "-d",
         "--destination",
         help="absolute path for where to generate the file,",
-        type=str)
+        type=str,
+    )
 
     args = args_parser.parse_args()
     fields = json.loads(args.resources_json)
 
     for field in fields:
         testmo_args = [
-            "--resources", f"{args.destination}",
-            "--name", f"{field}",
-            "--type", "string",
-            "--value", f"{fields[field]}"
+            "--resources",
+            f"{args.destination}",
+            "--name",
+            f"{field}",
+            "--type",
+            "string",
+            "--value",
+            f"{fields[field]}",
         ]
         testmo_command = ["npx", "testmo", "automation:resources:add-field"]
         full_command = testmo_command + testmo_args
