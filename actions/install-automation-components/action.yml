@@ -7,7 +7,7 @@ runs:
   steps:
     - shell: bash
       run: |-
-        # packages lists
+        # apt and apt-get updates
         cd /var/lib/apt/lists/
         sudo rm *
         cd ~
