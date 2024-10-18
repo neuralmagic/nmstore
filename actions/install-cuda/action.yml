@@ -1,0 +1,30 @@
+---
+name: install specific cuda version
+description: install speicific CUDA driver version
+
+inputs:
+  version:
+    description: specific CUDA driver version; default is 12.5
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - id: install_cuda
+      run: |
+        sudo apt update
+        sudo apt upgrade
+        sudo apt remove --purge '^cuda.*'
+        sudo apt install -y wget build-essential linux-headers-$(uname -r)
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+        sudo dpkg -i cuda-keyring_1.1-1_all.deb
+        sudo apt-get update
+        version='12.5'
+        if [[ ! -z "${{ inputs.version }}" ]]; then
+            version=${{ inputs.version }}
+        fi
+        cuda_version=${version/./-} 
+        sudo apt-get -y install cuda-toolkit-${cuda_version}
+        echo "PATH=/usr/local/cuda-${version}/bin:${PATH}" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=/usr/local/cuda-${version}/lib64:${LD_LIBRARY_PATH}" >> $GITHUB_ENV
+      shell: bash
