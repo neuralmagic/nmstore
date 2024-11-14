@@ -17,15 +17,21 @@ runs:
   using: composite
   steps:
     - id: install_whl
+      env:
+        VENV: ${{ inputs.venv }}
+        NAME: ${{ inputs.name }}
+        EXTRA: ${{ inputs.extra }}
       run: |
-        source ${{ inputs.venv }}/bin/activate
-        python --version
-        WHL=$(find . -type f -iname "${{ inputs.name }}*.whl")
-        if [ ! -z "${{ inputs.extra }}" ]; then
-          pip install ${WHL}${{ inputs.extra }}
-        else
-          pip install ${WHL}
+        source "$VENV/bin/activate"
+
+        whl=$(find . -type f -iname "$NAME*.whl")
+        if [ -n "$EXTRA" ]; then
+          whl="$whl$EXTRA"
         fi
-        version=$(pip freeze | grep "${{ inputs.name }}")
-        echo "installed ${version}"
+
+        echo "::group::pip install $whl"
+        pip install "$whl"
+        version=$(pip freeze | grep "$NAME")
+        echo "installed $version"
+        echo "::endgroup::"
       shell: bash
