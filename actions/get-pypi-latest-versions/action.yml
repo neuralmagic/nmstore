@@ -22,15 +22,18 @@ runs:
       id: getpypi
       shell: bash
       run: |-
-        echo "PWD: $(pwd)"
-        echo "ACTION_PATH: $ACTION_PATH"
-
+        echo "::group::get-pypi-latest-versions - preparing virtual environment"
         VENV_NAME="venv-pypi-versions"
         python -m venv "$VENV_NAME"
         source "$VENV_NAME/bin/activate"
-
         pip install requests rss-parser
+        echo "::endgroup::"
+
+        echo "get-pypi-latest-versions - getting latest '$NUM_VERSIONS' version(s) of '$PACKAGE_NAME'"
         versions=$(python "$ACTION_PATH/get-versions.py" "$PACKAGE_NAME" --num_versions "$NUM_VERSIONS")
+        echo "... result: $versions"
+
+        echo "get-pypi-latest-versions - cleaning up virtual environment"
         rm -r "$VENV_NAME"
 
         if [ -z "$versions" ]; then
