@@ -22,14 +22,15 @@ runs:
       id: getpypi
       shell: bash
       run: |-
-        echo "PWD=$(pwd)"
+        echo "PWD: $(pwd)"
+        echo "ACTION_PATH: $ACTION_PATH"
 
         VENV_NAME="venv-pypi-versions"
         python -m venv "$VENV_NAME"
         source "$VENV_NAME/bin/activate"
 
         pip install requests rss-parser
-        versions=$(python get-versions.py "$PACKAGE_NAME" --num_versions "$NUM_VERSIONS")
+        versions=$(python "$ACTION_PATH/get-versions.py" "$PACKAGE_NAME" --num_versions "$NUM_VERSIONS")
         rm -r "$VENV_NAME"
 
         if [ -z "$versions" ]; then
@@ -40,3 +41,4 @@ runs:
       env:
         PACKAGE_NAME: ${{ inputs.package_name }}
         NUM_VERSIONS: ${{ inputs.num_of_latest }}
+        ACTION_PATH: ${{ github.action_path }}
