@@ -8,7 +8,7 @@ inputs:
     required: true
   num_of_latest:
     description: number of latest versions
-    default: 1
+    default: '1'
 
 outputs:
   versions:
@@ -22,15 +22,21 @@ runs:
       id: getpypi
       shell: bash
       run: |-
-        URL="https://pypi.org/project/${{ inputs.package_name }}/#history"
-        curl --header 'Accept: application/vnd.pypi.simple.v1+json' ${URL} > history.log
-        all=`cat history.log | grep 'release__card' | sed 's/.*project\///g' | cut -d'/' -f2`
-        latest=${{ inputs.num_of_latest }}
-        if [[ -z "${{ inputs.num_of_latest }}" ]]; then
-            latest=1 
+        echo "PWD=$(pwd)"
+
+        VENV_NAME="venv-pypi-versions"
+        python -m venv "$VENV_NAME"
+        source "$VENV_NAME/bin/activate"
+
+        pip install requests rss-parser
+        versions=$(python get-versions.py "$PACKAGE_NAME" --num_versions "$NUM_VERSIONS")
+        rm -r "$VENV_NAME"
+
+        if [ -z "$versions" ]; then
+          exit 1
         fi
-        versions=`echo "${all}" | head -${latest} | tr '\n' ';'`
-        echo "versions=${versions}" >> "$GITHUB_OUTPUT"
-        if [ -z "${versions}" ]; then
-            exit 1
-        fi
+
+        echo "versions=$versions" >> $GITHUB_OUTPUT
+      env:
+        PACKAGE_NAME: ${{ inputs.package_name }}
+        NUM_VERSIONS: ${{ inputs.num_of_latest }}
