@@ -43,5 +43,5 @@ runs:
         echo "versions=$versions" >> $GITHUB_OUTPUT
       env:
         PACKAGE_NAME: ${{ inputs.package_name }}
-        NUM_VERSIONS: ${{ inputs.num_of_latest }}
+        NUM_VERSIONS: ${{ inputs.num_of_latest || "1" }}
         ACTION_PATH: ${{ github.action_path }}
