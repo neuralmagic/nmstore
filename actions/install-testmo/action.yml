@@ -11,6 +11,7 @@ runs:
         NEEDS_NODE=0
         if ! command -v node; then
           NEEDS_NODE=1
+          echo "install-testmo - latest Node.js LTS will be installed via actions/setup-node"
         else
           echo "install-testmo - Node.js $(node --version) already installed"
         fi
@@ -25,6 +26,7 @@ runs:
       run: |-
         if ! npx testmo --help &> /dev/null; then
           npm install --global @testmo/testmo-cli
+          echo "install-testmo - installed testmo-cli $(npx testmo --version)"
         else
           echo "install-testmo - testmo-cli $(npx testmo --version) already installed"
         fi
