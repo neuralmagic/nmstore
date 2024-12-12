@@ -28,7 +28,7 @@ runs:
   using: composite
   steps:
     - name: install Testmo CLI tool
-      uses: neuralmagic/nm-actions/actions/install-testmo@1.10.0
+      uses: neuralmagic/nm-actions/actions/install-testmo@self-contained-testmo-actions-test
 
     - name: create run
       id: testmo_id
