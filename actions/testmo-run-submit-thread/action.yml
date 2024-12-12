@@ -42,7 +42,7 @@ runs:
           echo "Results folder '$RESULTS_FOLDER' does not exist in working directory:"
           ls -A
           echo "::warning title=$GITHUB_JOB - MISSING RESULTS FOLDER::Results folder does not exist in working directory"
-          exit
+          exit 1
         fi
 
         # verify results folder contains XML result files
@@ -51,7 +51,7 @@ runs:
           echo "Results folder '$RESULTS_FOLDER' does not contain any XML result files:"
           ls -A "$RESULTS_FOLDER"
           echo "::warning title=$GITHUB_JOB - MISSING RESULT FILES::Results folder did not contain any XML result files"
-          exit
+          exit 1
         fi
 
         # generate resources file if necessary
