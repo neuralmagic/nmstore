@@ -27,6 +27,9 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: install Testmo CLI tool
+      uses: neuralmagic/nm-actions/actions/install-testmo@1.10.0
+
     - name: create run
       id: testmo_id
       run: |

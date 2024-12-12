@@ -28,7 +28,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: ACTION
-      uses: neuralmagic/nm-actions/ACTION@main
+      uses: neuralmagic/nm-actions/actions/ACTION@main
       with:
         config-file: .eslintrc
 ```
