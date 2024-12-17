@@ -17,7 +17,7 @@ runs:
   using: composite
   steps:
     - name: install Testmo CLI tool
-      uses: neuralmagic/nm-actions/actions/install-testmo@v1.11.0
+      uses: neuralmagic/nm-actions/actions/install-testmo@testmo-bugfix-test
 
     - run: |
         echo "completing TESTMO run ..."
