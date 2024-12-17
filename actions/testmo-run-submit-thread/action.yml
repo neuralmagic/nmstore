@@ -49,8 +49,8 @@ runs:
         fi
 
         # verify results folder contains XML result files
-        RESULTS=$(find "$RESULTS_FOLDER" -type f -name "*.xml")
-        if [[ -z "$RESULTS" ]]; then
+        readarray -d '' RESULTS < <(find "$RESULTS_FOLDER" -type f -name "*.xml" -print0)
+        if [[ ${#RESULTS[@]} == 0 ]]; then
           echo "Results folder '$RESULTS_FOLDER' does not contain any XML result files:"
           ls -A "$RESULTS_FOLDER"
           echo "::warning title=$GITHUB_JOB - MISSING RESULT FILES::Results folder did not contain any XML result files"
@@ -71,7 +71,7 @@ runs:
         npx testmo automation:run:submit-thread \
           --instance "$TESTMO_URL" \
           --run-id "$TESTMO_RUN_ID" \
-          --results "$RESULTS" \
+          --results "${RESULTS[@]}" \
           --thread-resources "$thread_resources" \
           -- step-status.sh "$STEP_STATUS" || SUCCESS=$?
 
