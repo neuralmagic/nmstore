@@ -40,7 +40,7 @@ runs:
         if [[ ! -z "${{ inputs.venv }}" ]]; then
             source ${{ inputs.venv }}/bin/activate
         fi
-        pip install wheel
+        pip install setuptools wheel
         name="${{ inputs.name }}"
         ver_file=$(find . -type f -name "version.py")
         if ${{ inputs.release }}; then
